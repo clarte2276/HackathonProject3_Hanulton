@@ -1,8 +1,10 @@
-// 게시판 구현 boardbuy boardsell boardads
+// // 게시판 구현 boardbuy boardsell boardads
 const express = require('express');
 const mysql = require('mysql');
 const db_config = require('../config/db_config.json');
 const moment = require('moment');
+const multer = require('multer');
+const path = require('path');
 const router = express.Router();
 
 const pool = mysql.createPool({
@@ -14,6 +16,22 @@ const pool = mysql.createPool({
   port: db_config.port,
   debug: false,
 });
+
+// Multer 설정
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, 'uploads/'); // 파일 저장 경로
+  },
+  filename: (req, file, cb) => {
+    cb(null, `${Date.now()}_${file.originalname}`);
+  }
+});
+
+const upload = multer({ storage: storage });
+
+// 정적 파일 서빙
+const app = express();
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 // 유틸리티 함수: 쿼리 실행 (쿼리 실행 반복 간편화)
 const executeQuery = (query, params, res, callback) => {
@@ -35,7 +53,7 @@ const executeQuery = (query, params, res, callback) => {
 
 // 게시판 데이터 가져오기
 const getBoardData = (tableName, res) => {
-  const query = `SELECT no, title, nickname, content, DATE_FORMAT(created_date, '%Y년 %m월 %d일 %H시 %i분') AS created_date, state, originprice, sellprice FROM ${tableName}`;
+  const query = `SELECT no, title, nickname, content, DATE_FORMAT(created_date, '%Y년 %m월 %d일 %H시 %i분') AS created_date, state, originprice, sellprice, file_path FROM ${tableName}`;
   executeQuery(query, [], res, (results) => {
     if (results.length === 0) {
       res.status(404).json({ message: '해당 게시판에 게시물이 없습니다.' });
@@ -46,7 +64,7 @@ const getBoardData = (tableName, res) => {
 };
 
 // 게시판 데이터 삽입
-const insertBoardData = (tableName, title, nickname, content, createdDate, originprice, sellprice, res) => {
+const insertBoardData = (tableName, title, nickname, content, createdDate, originprice, sellprice, filePath, res) => {
   pool.getConnection((err, conn) => {
     if (err) {
       console.log('MySQL Connection Error', err);
@@ -54,8 +72,8 @@ const insertBoardData = (tableName, title, nickname, content, createdDate, origi
     }
 
     conn.query(
-      `INSERT INTO ${tableName} (title, nickname, content, created_date, originprice, sellprice) VALUES (?, ?, ?, ?, ?, ?)`,
-      [title, nickname, content, createdDate, originprice, sellprice],
+      `INSERT INTO ${tableName} (title, nickname, content, created_date, originprice, sellprice, file_path) VALUES (?, ?, ?, ?, ?, ?, ?)`,
+      [title, nickname, content, createdDate, originprice, sellprice, filePath],
       (err, result) => {
         conn.release();
         if (err) {
@@ -160,10 +178,10 @@ const getUpdateForm = (tableName, postId, req, res) => {
 };
 
 // 게시글 수정
-const updatePost = (tableName, postId, title, content, createdDate, originprice, sellprice, req, res) => {
+const updatePost = (tableName, postId, title, content, createdDate, originprice, sellprice, filePath, req, res) => {
   pool.query(
-    `UPDATE ${tableName} SET title = ?, content = ?, created_date = ?, originprice = ?, sellprice = ? WHERE no = ? AND nickname = ?`,
-    [title, content, createdDate, originprice, sellprice, postId, req.session.user.nickname],
+    `UPDATE ${tableName} SET title = ?, content = ?, created_date = ?, originprice = ?, sellprice = ?, file_path = ? WHERE no = ? AND nickname = ?`,
+    [title, content, createdDate, originprice, sellprice, filePath, postId, req.session.user.nickname],
     (error) => {
       if (error) {
         console.error('쿼리 실행 중 오류 발생: ', error);
@@ -196,16 +214,17 @@ const updatePostState = (tableName, postId, newState, req, res) => {
 // 각각의 게시판 라우터 생성
 const createBoardRoutes = (boardName, tableName) => {
   // 게시판 데이터 가져오기
-  router.post(`/${boardName}`, (req, res) => {
+  router.get(`/${boardName}`, (req, res) => {
     getBoardData(tableName, res);
   });
 
   // 새 글 작성
-  router.post(`/${boardName}/process/new_Post`, (req, res) => {
+  router.post(`/${boardName}/process/new_Post`, upload.single('file'), (req, res) => { // upload.single 추가
     const { title, content, originprice, sellprice } = req.body;
     const nickname = req.session.user.nickname;
     const createdDate = moment().format('YYYY-MM-DD HH:mm:ss');
-    insertBoardData(tableName, title, nickname, content, createdDate, originprice, sellprice, res);
+    const filePath = req.file ? req.file.path : null;
+    insertBoardData(tableName, title, nickname, content, createdDate, originprice, sellprice, filePath, res);
   });
 
   // 상세보기
@@ -224,10 +243,11 @@ const createBoardRoutes = (boardName, tableName) => {
   });
 
   // 게시글 수정
-  router.post(`/${boardName}/PostView/:no/process/update`, (req, res) => {
+  router.post(`/${boardName}/PostView/:no/process/update`, upload.single('file'), (req, res) => { // upload.single 추가
     const { title, content, created_date, originprice, sellprice } = req.body;
     const createdDate = moment(created_date || new Date()).format('YYYY-MM-DD HH:mm:ss');
-    updatePost(tableName, req.params.no, title, content, createdDate, originprice, sellprice, req, res);
+    const filePath = req.file ? req.file.path : null;
+    updatePost(tableName, req.params.no, title, content, createdDate, originprice, sellprice, filePath, req, res);
   });
 
   // 게시글 상태 변경
