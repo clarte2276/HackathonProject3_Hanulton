@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR&family=Inter:wght@100..900&display=swap');
+
 .BoardAll_layout {
   display: grid;
   justify-content: center;
@@ -14,12 +16,63 @@
   margin: 50px 0px;
 }
 
+.titlePrice {
+  text-align: left;
+  margin-top: 10px;
+  margin-left: 12px;
+  color: black;
+}
+
 .List_title {
-  color: #347988;
+  font-family: 'IBM Plex Sans KR', sans-serif;
+  font-weight: 500;
+  font-style: normal;
+  font-size: 15px;
+  margin-bottom: 5px;
+}
+
+.List_price {
+  font-family: 'Inter', sans-serif;
+  font-weight: 600;
+  font-style: normal;
+  font-size: 15px;
 }
 
 .PaginationCustom {
   display: flex;
   justify-content: center;
   margin-bottom: 50px;
+}
+
+.maybeimg {
+  background-color: #d9d9d9;
+  width: 100px;
+  height: 100px;
+}
+
+.SearchForm {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.searchInput,
+.searchBtn {
+  border: 1.6px solid #b3b3b3;
+  border-radius: 3px;
+}
+
+.searchInput {
+  padding: 5px;
+  padding-right: 130px;
+  margin-right: 10px;
+}
+
+.searchBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: 10px;
+  width: 40px;
 }

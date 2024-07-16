@@ -2,13 +2,14 @@ import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import axios from 'axios';
 
-import TitleBodyBoard from './element/TitleBodyBoard';
+// import TitleBodyBoard from './element/TitleBodyBoard';
 import ListBoard from './element/ListBoard';
 import ColumnListBoard from './element/ColumnListBoard';
 import RowListBoard from './element/RowListBoard';
 import CreateButtonBoard from './element/CreateButtonBoard';
 import PaginationCustom from './element/PaginationCustom';
 import NavbarTop from '../Navbar/NavbarTop';
+import search from '../images/search.png';
 import './Board.css';
 
 const BoardSell = () => {
@@ -59,34 +60,42 @@ const BoardSell = () => {
     fetchData(searchKeyword);
   };
 
+  const formatPrice = (price) => {
+    return new Intl.NumberFormat('ko-KR').format(price) + '원';
+  };
+
   return (
     <>
       <NavbarTop />
       <div className="BoardAll_layout">
-        <div className="BoardTop_layout">
-          <TitleBodyBoard title="팝니다" body="팔아보세요" />
-        </div>
         <form onSubmit={handleSearch} className="SearchForm">
           <input
+            className="searchInput"
             type="text"
             value={searchKeyword}
             onChange={(e) => setSearchKeyword(e.target.value)}
             placeholder="검색어를 입력하세요"
           />
-          <button type="submit">검색</button>
+          <button className="searchBtn" type="submit">
+            <img src={search} alt="검색" width={20} />
+          </button>
         </form>
-
-        <ListBoard headersName={['제목', '작성자', '작성일']}>
+        <ListBoard headersName={['', '']}>
           {currentPosts.length > 0 ? (
             currentPosts.map((item, index) => (
               <RowListBoard key={index}>
-                <ColumnListBoard>
-                  <Link to={`/boardsell/PostView/${item.no}`} style={{ textDecoration: 'none' }}>
-                    <div className="List_title">{item.title}</div>
-                  </Link>
-                </ColumnListBoard>
-                <ColumnListBoard>{item.nickname}</ColumnListBoard>
-                <ColumnListBoard>{item.created_date}</ColumnListBoard>
+                <Link to={`/boardsell/PostView/${item.no}`} style={{ textDecoration: 'none' }}>
+                  <ColumnListBoard>
+                    <div className="maybeimg"></div>
+                  </ColumnListBoard>
+                  <ColumnListBoard>
+                    <div className="titlePrice">
+                      <div className="List_title">{item.title}</div>
+                      <div className="List_price">{formatPrice(item.sellprice)}</div>
+                      {/* <div className="List_date">{item.created_date}</div> */}
+                    </div>
+                  </ColumnListBoard>
+                </Link>
               </RowListBoard>
             ))
           ) : (
