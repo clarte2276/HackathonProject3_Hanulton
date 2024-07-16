@@ -16,7 +16,16 @@ const pool = mysql.createPool({
   debug: false,
 });
 
-router.post("/", (req, res) => {
+// 로그인 여부 확인 미들웨어ㅁㄴㅇ
+const checkLogin = (req, res, next) => {
+  if (req.session && req.session.user) {
+    next();
+  } else {
+    res.status(401).send("Unauthorized");
+  }
+};
+
+router.post("/", checkLogin, (req, res) => {
   const userID = req.session.user.id;
 
   pool.getConnection((err, conn) => {
@@ -27,7 +36,7 @@ router.post("/", (req, res) => {
     }
 
     const userQuery =
-      "SELECT name, nickname, store, birth, id FROM users WHERE id = ?";
+      "SELECT name, nickname, store, birth, id, password FROM users WHERE id = ?";
     const sellQuery =
       "SELECT title, created_date FROM boardsell WHERE nickname = ?";
     const buyQuery =
@@ -79,7 +88,7 @@ router.post("/", (req, res) => {
 });
 
 // 내 정보 업데이트
-router.post("/process/update", async (req, res) => {
+router.post("/process/update", checkLogin, async (req, res) => {
   const id = req.session.user.id;
   const { nickname, password } = req.body;
 
