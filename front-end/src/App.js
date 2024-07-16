@@ -16,7 +16,11 @@ function App() {
         <div className="content">
           <Routes>
             <Route path="/" element={<Home />} />
-            <Route path="/buy" element={<BoardBuy />} />
+            <Route path="/boardbuy" element={<BoardBuy />} />
+            <Route path="/signuppage" element={<Signup />} />
+            <Route path="/loginpage" element={<Login />} />
+            <Route path="/mypage" element={<Mypage />} />
+            <Route path="/mypage/edit" element={<MypageEdit />} />
           </Routes>
         </div>
         <div>
