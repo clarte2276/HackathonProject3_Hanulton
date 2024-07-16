@@ -1,16 +1,22 @@
-.navbar {
-  width: 100%;
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR&display=swap');
+
+.basicNavbar {
+  position: relative;
+  font-family: 'IBM Plex Sans KR';
+  font-style: normal;
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 130%;
+  display: flex;
+  align-items: center;
   text-align: center;
-  position: relative;
-}
-
-.navbar h1 {
-  font-size: 16px;
-}
-
-.underline {
+  justify-content: center;
+  letter-spacing: -0.5px;
+  color: #000000;
+  box-sizing: border-box;
   width: 100%;
-  height: 2px;
-  background-color: black;
-  position: relative;
+  height: 61px;
+  border-bottom: 2px solid #979797;
+  padding-bottom: 2%;
+  margin: 0 0;
 }
