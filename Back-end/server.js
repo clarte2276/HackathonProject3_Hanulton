@@ -53,7 +53,7 @@ const mypageRoutes = require("./function/mypage");
 const loginRoutes = require("./function/login");
 const use_cookieRoutes = require("./function/use_cookie");
 const boardRoutes = require("./function/board");
-const chatsRoutes = require("./function/chats");
+const chatsRoutes = require("./function/chat_list");
 const searchRoutes = require("./function/search");
 
 app.use("/", mypageRoutes);
