@@ -1,0 +1,31 @@
+.navbarTop_all {
+  display: flex;
+  justify-content: center;
+}
+
+.navbarTop_layout {
+  width: 431px;
+  display: flex;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  background-color: yellow;
+  justify-content: space-between;
+  align-items: center;
+  margin-right: 20%;
+  padding-left: 6%;
+}
+
+.searchChat {
+  display: flex;
+  margin-right: 12%;
+}
+
+.menuTap {
+  padding-left: 0px;
+  /* margin: 6%; */
+  background-color: blue;
+  padding: 3px;
+  padding: 3px 10px;
+}
