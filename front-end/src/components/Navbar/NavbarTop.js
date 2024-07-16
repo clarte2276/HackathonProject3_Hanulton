@@ -1,5 +1,8 @@
 import React, { useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
+import plus from '../images/plus.png';
+import search from '../images/search.png';
+import chat from '../images/chat.png';
 import './NavbarTop.css';
 
 function NavbarTop() {
@@ -36,22 +39,30 @@ function NavbarTop() {
       <>
         {location.pathname !== '/' && (
           <div>
-            <Link to="/">Home</Link>
+            <Link className="TapTap" to="/">
+              Home
+            </Link>
           </div>
         )}
         {location.pathname !== '/boardbuy' && (
           <div>
-            <Link to="/boardbuy">삽니다</Link>
+            <Link className="TapTap" to="/boardbuy">
+              삽니다
+            </Link>
           </div>
         )}
         {location.pathname !== '/boardsell' && (
           <div>
-            <Link to="/boardsell">팝니다</Link>
+            <Link className="TapTap" to="/boardsell">
+              팝니다
+            </Link>
           </div>
         )}
         {location.pathname !== '/boardads' && (
           <div>
-            <Link to="/boardads">광고홍보</Link>
+            <Link className="TapTap" to="/boardads">
+              홍보
+            </Link>
           </div>
         )}
       </>
@@ -62,14 +73,27 @@ function NavbarTop() {
     switch (location.pathname) {
       case '/':
         return 'Home';
-      case '/buy':
+      case '/boardbuy':
         return '삽니다';
-      case '/sell':
+      case '/boardsell':
         return '팝니다';
-      case '/ads':
-        return '광고홍보';
+      case '/boardads':
+        return '홍보';
       default:
         return '반가워요!';
+    }
+  };
+
+  const getNewPostPath = () => {
+    switch (location.pathname) {
+      case '/boardsell':
+        return '/boardsell/process/new_Post';
+      case '/boardbuy':
+        return '/boardbuy/process/new_Post';
+      case '/boardads':
+        return '/boardads/process/new_Post';
+      default:
+        return '#';
     }
   };
 
@@ -83,14 +107,21 @@ function NavbarTop() {
               setView(!view);
             }}
           >
-            {getGreetingText()} {view ? '⌃' : '⌄'}
+            {getGreetingText()} {view ? '▲' : '▼'}
             {view && <Dropdown />}
           </ul>
         </div>
         <div className="searchChat">
-          <div>+</div>
-          <div>검색</div>
-          <div>채팅</div>
+          <div className="icon_layout">
+            <Link to={getNewPostPath()}>
+              <img src={plus} alt="글작성" width={18} />
+            </Link>
+          </div>
+          <div className="icon_layout">
+            <Link to={'/chat/list'}>
+              <img src={chat} alt="채팅" width={24} />
+            </Link>
+          </div>
         </div>
       </div>
     </div>
