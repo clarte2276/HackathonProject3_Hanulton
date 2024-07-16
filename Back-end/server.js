@@ -47,6 +47,8 @@ app.use(
 // 정적 파일 제공
 app.use(express.static(path.join(__dirname, "../Front-end/build")));
 app.use(express.static(path.join(__dirname, "public")));
+//이미지 업로드 폴더
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 //js파일 연동
 const mypageRoutes = require("./function/mypage");

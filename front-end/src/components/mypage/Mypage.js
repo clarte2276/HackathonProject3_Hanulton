@@ -62,8 +62,8 @@ function Mypage() {
           <div className="userProfile">
             <img className="mypageImg" src={mypageUser} alt="프로필 이미지"></img>
             <div className="userProfileText">
-              <p>가게 이름{store}</p>
-              <p>닉네임{nickname}</p>
+              <p>{store}</p>
+              <p>{nickname}</p>
             </div>
           </div>
           <div className="centered">

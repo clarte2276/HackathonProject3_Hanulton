@@ -34,16 +34,10 @@ function Login() {
       <h1>로그인</h1>
       <form className="loginPagecontent" onSubmit={handleSubmit}>
         <div className="textBox">
-          <p>아이디</p>
-          <input type="text" name="id" placeholder="아이디" value={id} onChange={(e) => setId(e.target.value)} />
-          <p>비밀번호</p>
-          <input
-            type="password"
-            name="password"
-            placeholder="비밀번호"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-          />
+          <p className="idBox">아이디</p>
+          <input type="text" name="id" value={id} onChange={(e) => setId(e.target.value)} />
+          <p className="pwBox">비밀번호</p>
+          <input type="password" name="password" value={password} onChange={(e) => setPassword(e.target.value)} />
         </div>
         <div className="btnContent">
           <button type="submit" className="loginpageBtn">
