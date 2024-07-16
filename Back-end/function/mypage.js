@@ -1,11 +1,11 @@
-//마이페이지 구현
+// 마이페이지 구현
 const express = require("express");
 const mysql = require("mysql");
 const bcrypt = require("bcrypt");
 const router = express.Router();
 const db_config = require("../config/db_config.json");
 
-// Database connection poolㅁㄴㅇㅁㄴㅇㅁㅁㄴㅇ
+// Database connection pool
 const pool = mysql.createPool({
   connectionLimit: 10,
   host: db_config.host,
@@ -15,6 +15,7 @@ const pool = mysql.createPool({
   port: db_config.port,
   debug: false,
 });
+
 router.post("/", (req, res) => {
   const userID = req.session.user.id;
 
@@ -26,7 +27,7 @@ router.post("/", (req, res) => {
     }
 
     const userQuery =
-      "SELECT name, birth, nickname, id, password, store FROM users WHERE id = ?";
+      "SELECT name, nickname, store, birth, id FROM users WHERE id = ?";
     const sellQuery =
       "SELECT title, created_date FROM boardsell WHERE nickname = ?";
     const buyQuery =
@@ -77,9 +78,9 @@ router.post("/", (req, res) => {
   });
 });
 
-//내 정보 업데이트
+// 내 정보 업데이트
 router.post("/process/update", async (req, res) => {
-  const userID = req.session.user.id;
+  const id = req.session.user.id;
   const { nickname, password } = req.body;
 
   try {
@@ -93,14 +94,15 @@ router.post("/process/update", async (req, res) => {
       }
 
       const sql = `
-        UPDATE users SET  nickname = ?, ${
-          hashedPassword ? "password = ?, " : ""
+        UPDATE users SET nickname = ?${
+          hashedPassword ? ", password = ?" : ""
         } WHERE id = ?`;
 
-      const params = [nickname, password];
+      const params = [nickname];
       if (hashedPassword) {
-        params.splice(3, 0, hashedPassword);
+        params.push(hashedPassword);
       }
+      params.push(id);
 
       const exec = conn.query(sql, params, (err, result) => {
         conn.release();
@@ -125,7 +127,6 @@ router.post("/process/update", async (req, res) => {
     res.status(500).json({ message: "비밀번호 해싱 실패" });
   }
 });
-
 //app과 router 연동
 router.use("/mypage", router);
 module.exports = router;

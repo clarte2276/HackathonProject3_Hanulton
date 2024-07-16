@@ -77,11 +77,11 @@ router.post("/process/signup", async (req, res) => {
   console.log("/signup 호출됨", req.body);
 
   const paramName = req.body.name;
-  const parambirth = req.body.birth;
-  const paramNickname = req.body.usernickname;
-  const paramID = req.body.username;
-  const paramPW = req.body.password;
+  const paramNickname = req.body.nickname;
   const paramStore = req.body.store;
+  const parambirth = req.body.birth;
+  const paramID = req.body.id;
+  const paramPW = req.body.password;
 
   try {
     const hashedPassword = await bcrypt.hash(paramPW, 10);
@@ -95,14 +95,14 @@ router.post("/process/signup", async (req, res) => {
       console.log("데이터베이스 연결 성공");
 
       const exec = conn.query(
-        "INSERT INTO users (name, birth, nickname, id, password, store) VALUES (?, ?, ?, ?,?, ?);",
+        "INSERT INTO users (name, nickname, store, birth, id, password) VALUES (?, ?, ?, ?,?, ?);",
         [
           paramName,
-          parambirth,
           paramNickname,
+          paramStore,
+          parambirth,
           paramID,
           hashedPassword,
-          paramStore,
         ],
         (err, result) => {
           conn.release();
