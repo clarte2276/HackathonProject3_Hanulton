@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
+import BasicNavbar from '../../Navbar/BasicNavbar';
 import './CRUD.css';
 import axios from 'axios';
 
@@ -49,7 +50,12 @@ function SellUpdate() {
   const updatePost = async (event) => {
     event.preventDefault();
     try {
-      await axios.post(`/boardsell/Postview/${no}/process/update`, { title: post.title, content: post.body });
+      await axios.post(`/boardsell/Postview/${no}/process/update`, {
+        title: post.title,
+        content: post.body,
+        sellprice: post.sellprice,
+        originprice: post.originprice,
+      });
       alert('수정되었습니다.');
       navigate(`/boardsell/PostView/${no}`);
     } catch (error) {
@@ -64,7 +70,7 @@ function SellUpdate() {
   };
 
   const backToList = () => {
-    navigate(`/board/PostView/${no}`);
+    navigate(`/boardsell/PostView/${no}`);
   };
 
   if (loading) {
@@ -81,7 +87,7 @@ function SellUpdate() {
   return (
     <>
       <div>
-        <CRUDHeader title="팝니다 글수정" />
+        <BasicNavbar title="글쓰기" />
       </div>
       <form onSubmit={updatePost}>
         <div>
@@ -91,11 +97,11 @@ function SellUpdate() {
         <br />
         <div>
           <span>판매 가격</span>
-          <input type="text" name="title" placeholder="판매 가격" value={post.sellprice} onChange={onChange} />
+          <input type="text" name="sellprice" placeholder="판매 가격" value={post.sellprice} onChange={onChange} />
         </div>
         <div>
           <span>정가</span>
-          <input type="text" name="title" placeholder="정가" value={post.originprice} onChange={onChange} />
+          <input type="text" name="originprice" placeholder="정가" value={post.originprice} onChange={onChange} />
         </div>
         <div>
           <span>내용</span>

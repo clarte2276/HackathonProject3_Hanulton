@@ -72,7 +72,7 @@ function SellRead() {
             <div>{created_date}</div>
           </div>
           <div className="updateDelete">
-            <Link to={`/board/Postview/${no}/process/update`}>수정</Link>
+            <Link to={`/boardsell/Postview/${no}/process/update`}>수정</Link>
             <div onClick={handleDelete} style={{ cursor: 'pointer' }}>
               삭제
             </div>
