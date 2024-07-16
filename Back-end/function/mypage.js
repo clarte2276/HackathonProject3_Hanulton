@@ -49,7 +49,7 @@ router.post("/", (req, res) => {
   });
 });
 // /mypage/~~ 에 접속했을 때 다음과 같은 일을 하세요
-router.post("/mypage/process/update", async (req, res) => {
+router.post("/process/update", async (req, res) => {
   const userID = req.session.user.id;
   const { lastName, firstName, nickname, password, birth, gender, state } =
     req.body;
