@@ -1,4 +1,4 @@
-// // 게시판 구현 boardbuy boardsell boardads
+// 게시판 구현 boardbuy boardsell boardads
 const express = require('express');
 const mysql = require('mysql');
 const db_config = require('../config/db_config.json');
@@ -17,17 +17,21 @@ const pool = mysql.createPool({
   debug: false,
 });
 
-// Multer 설정
+// multer설정
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
-    cb(null, 'uploads/'); // 파일 저장 경로
+    cb(null, 'uploads/');
   },
   filename: (req, file, cb) => {
-    cb(null, `${Date.now()}_${file.originalname}`);
+    const ext = path.extname(file.originalname);
+    cb(null, path.basename(file.originalname, ext) + Date.now() + ext);
   }
 });
 
-const upload = multer({ storage: storage });
+const upload = multer({
+  storage: storage,
+  limits: { fileSize: 20 * 1024 * 1024 } // 파일 사이즈 제한 20MB
+});
 
 // 정적 파일 서빙
 const app = express();
