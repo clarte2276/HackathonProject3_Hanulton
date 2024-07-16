@@ -1,7 +1,8 @@
 import { React, useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-// import HOPINFO from './images/HOPINFO.png';
-// import chat from './images/chat.png';
+import stock from '../images/stock.png';
+import deal from '../images/deal.png';
+import mypage from '../images/mypage.png';
 import './NavbarBottom.css';
 
 function NavbarBottom() {
@@ -36,17 +37,23 @@ function NavbarBottom() {
   return (
     <div className="navbarBottom_all">
       <div className="navbarBottom_layout">
-        <div>
-          <p>아이콘</p>
-          <p>Home</p>
+        <div className="navbarBottom_center">
+          <br />
+          <img src={stock} alt="재고" width={30} />
+          <div>재고</div>
+          <br />
         </div>
-        <div>
-          <p>아이콘</p>
-          <p>Map</p>
+        <div className="navbarBottom_center">
+          <br />
+          <img src={deal} alt="거래" width={30} />
+          <div>거래</div>
+          <br />
         </div>
-        <div>
-          <p>아이콘</p>
-          <p>MyPage</p>
+        <div className="navbarBottom_center">
+          <br />
+          <img src={mypage} alt="내페이지" width={30} />
+          <div>내페이지</div>
+          <br />
         </div>
       </div>
     </div>
