@@ -8,9 +8,10 @@ import ColumnListBoard from './element/ColumnListBoard';
 import RowListBoard from './element/RowListBoard';
 import CreateButtonBoard from './element/CreateButtonBoard';
 import PaginationCustom from './element/PaginationCustom';
+import NavbarTop from '../Navbar/NavbarTop';
 import './Board.css';
 
-const BoardBuy = () => {
+const BoardSell = () => {
   const [dataList, setDataList] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const postsPerPage = 10;
@@ -19,7 +20,7 @@ const BoardBuy = () => {
   const fetchData = async () => {
     try {
       // 백엔드에서 게시글 목록을 가져옴
-      const response = await axios.post(`/buy`);
+      const response = await axios.post(`/boardsell`);
       console.log('응답 데이터:', response.data); // 응답 데이터 출력
       setDataList(Array.isArray(response.data) ? response.data : []);
     } catch (error) {
@@ -51,37 +52,40 @@ const BoardBuy = () => {
   };
 
   return (
-    <div className="BoardAll_layout">
-      <div className="BoardTop_layout">
-        <TitleBodyBoard title="삽니다" body="본인의 챌린지 및 치료 후기를 적어주세요!" />
+    <>
+      <NavbarTop />
+      <div className="BoardAll_layout">
+        <div className="BoardTop_layout">
+          <TitleBodyBoard title="팝니다" body="팔아보세요" />
+        </div>
+        <ListBoard headersName={['제목', '작성자', '작성일']}>
+          {currentPosts.length > 0 ? (
+            currentPosts.map((item, index) => (
+              <RowListBoard key={index}>
+                <ColumnListBoard>
+                  <Link to={`/boardsell/PostView/${item.no}`} style={{ textDecoration: 'none' }}>
+                    <div className="List_title">{item.title}</div>
+                  </Link>
+                </ColumnListBoard>
+                <ColumnListBoard>{item.nickname}</ColumnListBoard>
+                <ColumnListBoard>{item.created_date}</ColumnListBoard>
+              </RowListBoard>
+            ))
+          ) : (
+            <div>게시글이 없습니다.</div>
+          )}
+        </ListBoard>
+        <CreateButtonBoard emotion="boardsell" nextNo={getNextNo()} />
+        <div className="PaginationCustom">
+          <PaginationCustom
+            currentPage={currentPage}
+            totalPages={Math.ceil(dataList.length / postsPerPage)}
+            onPageChange={handlePageChange}
+          />
+        </div>
       </div>
-      <ListBoard headersName={['제목', '작성자', '작성일']}>
-        {currentPosts.length > 0 ? (
-          currentPosts.map((item, index) => (
-            <RowListBoard key={index}>
-              <ColumnListBoard>
-                <Link to={`/buy/PostView/${item.no}`} style={{ textDecoration: 'none' }}>
-                  <div className="List_title">{item.title}</div>
-                </Link>
-              </ColumnListBoard>
-              <ColumnListBoard>{item.nickname}</ColumnListBoard>
-              <ColumnListBoard>{item.created_date}</ColumnListBoard>
-            </RowListBoard>
-          ))
-        ) : (
-          <div>게시글이 없습니다.</div>
-        )}
-      </ListBoard>
-      <CreateButtonBoard emotion="buy" nextNo={getNextNo()} />
-      <div className="PaginationCustom">
-        <PaginationCustom
-          currentPage={currentPage}
-          totalPages={Math.ceil(dataList.length / postsPerPage)}
-          onPageChange={handlePageChange}
-        />
-      </div>
-    </div>
+    </>
   );
 };
 
-export default BoardBuy;
+export default BoardSell;

@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import useUserData from '../useUserData';
 import mypageUser from '../images/mypageuser.png';
 import axios from 'axios';
+import BasicNavbar from '../Navbar/BasicNavbar';
 
 function Mypage() {
   const navigate = useNavigate();
@@ -54,26 +55,27 @@ function Mypage() {
   };
 
   return (
-    <div className="myPage">
-      <form className="userProfileForm">
-        <div className="userProfile">
-          <img className="mypageImg" src={mypageUser} alt="프로필 이미지"></img>
-        </div>
-        <div className="userProfileStore">
-          <p>{store}</p>
-        </div>
-        <div className="userProfileNickname">
-          <p>{nickname}</p>
-        </div>
-        <div className="centered">
-          <button className="editBtn" onClick={() => navigate('/mypage/edit')}>
-            프로필 수정
-          </button>
-          <button className="logoutBtn" onClick={handleLogout}>
-            로그아웃
-          </button>
-        </div>
-      </form>
+    <div className="myPageAll">
+      <BasicNavbar title="Mypage"></BasicNavbar>
+      <div className="myPage">
+        <form className="userProfileForm">
+          <div className="userProfile">
+            <img className="mypageImg" src={mypageUser} alt="프로필 이미지"></img>
+            <div className="userProfileText">
+              <p>가게 이름{store}</p>
+              <p>닉네임{nickname}</p>
+            </div>
+          </div>
+          <div className="centered">
+            <button className="editBtn" onClick={() => navigate('/mypage/edit')}>
+              프로필 수정
+            </button>
+            <button className="logoutBtn" onClick={handleLogout}>
+              로그아웃
+            </button>
+          </div>
+        </form>
+      </div>
     </div>
   );
 }

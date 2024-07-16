@@ -1,0 +1,46 @@
+.myPageAll {
+  display: flex;
+  flex-direction: column;
+}
+
+.myPage {
+  display: flex;
+  flex-direction: column;
+}
+
+.userProfile {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-evenly;
+  margin-right: 10%;
+}
+
+.userProfileText {
+  display: flex;
+  flex-direction: column;
+}
+
+.userProfileForm {
+  display: flex;
+  flex-direction: column;
+}
+
+.centered {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+
+.centered button {
+  flex-direction: row;
+  align-items: center;
+}
+
+.editBtn,
+.logoutBtn {
+  display: block;
+  margin: 10px auto;
+  text-align: center;
+  align-items: center;
+}

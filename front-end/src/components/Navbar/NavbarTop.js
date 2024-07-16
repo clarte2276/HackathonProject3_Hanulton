@@ -39,19 +39,19 @@ function NavbarTop() {
             <Link to="/">Home</Link>
           </div>
         )}
-        {location.pathname !== '/buy' && (
+        {location.pathname !== '/boardbuy' && (
           <div>
-            <Link to="/buy">삽니다</Link>
+            <Link to="/boardbuy">삽니다</Link>
           </div>
         )}
-        {location.pathname !== '/sell' && (
+        {location.pathname !== '/boardsell' && (
           <div>
-            <Link to="/sell">팝니다</Link>
+            <Link to="/boardsell">팝니다</Link>
           </div>
         )}
-        {location.pathname !== '/ads' && (
+        {location.pathname !== '/boardads' && (
           <div>
-            <Link to="/ads">광고홍보</Link>
+            <Link to="/boardads">광고홍보</Link>
           </div>
         )}
       </>
