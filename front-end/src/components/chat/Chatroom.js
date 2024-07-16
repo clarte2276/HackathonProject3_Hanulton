@@ -4,7 +4,7 @@
 // import './Chatroom.css';
 
 // const Chatroom = () => {
-//   const { my_roomid, roomId } = useParams();
+//   const { userId, receiverId } = useParams();
 //   const [messages, setMessages] = useState([]);
 //   const [newMessage, setNewMessage] = useState('');
 //   const [roomMessages, setRoomMessages] = useState([]);
@@ -12,8 +12,8 @@
 //   // 주기적으로 메시지를 가져오는 함수
 //   const fetchMessages = async () => {
 //     try {
-//       console.log(`Fetching messages for roomId: ${roomId}`);
-//       const response = await axios.get(`/chatrooms/${my_roomid}/to/${roomId}/messages`);
+//       console.log(`Fetching messages for sender ${userId} to receiver ${receiverId}`);
+//       const response = await axios.get(`/chat/chatroom/${userId}/to/${receiverId}/messages`);
 //       console.log('Fetched messages:', response.data);
 //       if (Array.isArray(response.data)) {
 //         setMessages(response.data);
@@ -22,7 +22,7 @@
 //         // 메세지를 받아올 때 isMyMessage 속성 설정
 //         const processedMessages = response.data.map((msg) => ({
 //           ...msg,
-//           isMyMessage: msg.receiver_id === parseInt(roomId) && msg.sender_id === parseInt(my_roomid),
+//           isMyMessage: msg.receiver_id === parseInt(receiverId) && msg.sender_id === parseInt(userId),
 //         }));
 
 //         setMessages(processedMessages);
@@ -41,7 +41,7 @@
 
 //     // 컴포넌트가 언마운트될 때 인터벌 정리
 //     return () => clearInterval(interval);
-//   }, [my_roomid, roomId]);
+//   }, [userId, receiverId]);
 
 //   useEffect(() => {
 //     if (Array.isArray(messages) && messages.length) {
