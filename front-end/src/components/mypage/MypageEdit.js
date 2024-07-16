@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from 'react';
-import './MypageEdit.css';
-import { useNavigate } from 'react-router-dom';
-import useUserData from '../useUserData';
-import axios from 'axios';
-import BasicNavbar from '../Navbar/BasicNavbar';
+import React, { useState, useEffect } from "react";
+import "./MypageEdit.css";
+import { useNavigate } from "react-router-dom";
+import useUserData from "../useUserData";
+import axios from "axios";
+import BasicNavbar from "../Navbar/BasicNavbar";
 
 function MypageEdit() {
   const navigate = useNavigate();
@@ -32,10 +32,10 @@ function MypageEdit() {
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     switch (name) {
-      case 'nickname':
+      case "nickname":
         setNickname(value);
         break;
-      case 'password':
+      case "password":
         setPassword(value);
         break;
       default:
@@ -46,7 +46,7 @@ function MypageEdit() {
   const handleSaveWrapper = async (e) => {
     e.preventDefault();
     await handleSave();
-    navigate('/mypage');
+    navigate("/mypage");
   };
 
   return (
@@ -58,27 +58,57 @@ function MypageEdit() {
         <form onSubmit={handleSaveWrapper} className="userEditForm">
           <p>
             이름
-            <input type="text" name="name" placeholder="이름" value={name} disabled />
+            <input
+              type="text"
+              name="name"
+              placeholder="이름"
+              value={name}
+              disabled
+            />
           </p>
           <p>
             닉네임
-            <input type="text" name="nickname" placeholder="닉네임" value={nickname} onChange={handleInputChange} />
+            <input
+              type="text"
+              name="nickname"
+              placeholder="닉네임"
+              value={nickname}
+              onChange={handleInputChange}
+            />
           </p>
           <p>
             가게 이름
-            <input type="text" name="store" placeholder="가게 이름" value={store} disabled />
+            <input
+              type="text"
+              name="store"
+              placeholder="가게 이름"
+              value={store}
+              disabled
+            />
           </p>
           <p>
             생년월일
-            <input type="text" name="birth" placeholder="생년월일(8자리 입력)" value={birth} disabled />
+            <input
+              type="text"
+              name="birth"
+              placeholder="생년월일(8자리 입력)"
+              value={birth}
+              disabled
+            />
           </p>
           <div className="userEditInfo">
             <p className="a_id">
-              아이디 <input type="text" placeholder="아이디" value={id} disabled />
+              아이디{" "}
+              <input type="text" placeholder="아이디" value={id} disabled />
             </p>
             <p className="a_pw">
               비밀번호
-              <input type="text" placeholder="비밀번호" value={password} onChange={handleInputChange} />
+              <input
+                type="text"
+                placeholder="비밀번호"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+              />
             </p>
           </div>
           <div className="centered">

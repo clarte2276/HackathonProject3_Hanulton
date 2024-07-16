@@ -50,11 +50,11 @@ app.use(express.static(path.join(__dirname, "public")));
 
 //js파일 연동
 const mypageRoutes = require("./function/mypage");
-const loginRoutes = require("./function/login");
 const use_cookieRoutes = require("./function/use_cookie");
 const boardRoutes = require("./function/board");
 const chatsRoutes = require("./function/chat_list");
 const searchRoutes = require("./function/search");
+const loginRoutes = require("./function/login");
 
 app.use("/", mypageRoutes);
 app.use("/", loginRoutes);
