@@ -1,0 +1,24 @@
+.myPageEditAll {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.myPageNavbar {
+  border-bottom: 1px solid black;
+}
+
+.myPageEdit {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.userEditForm {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
