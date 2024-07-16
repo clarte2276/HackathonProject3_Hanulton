@@ -28,7 +28,7 @@ router.post("/", (req, res) => {
 
     //select 할 때 db로 정보 불러오는 건데 여기서 roomid를 안가져오고 있었음. -> 수정완료
     const exec = conn.query(
-      "SELECT nickname, store, id, password FROM users WHERE id = ?",
+      "SELECT name, birth, nickname, id, password, store FROM users WHERE id = ?",
       [userID],
       (err, rows) => {
         conn.release();
@@ -48,11 +48,11 @@ router.post("/", (req, res) => {
     );
   });
 });
+
 // /mypage/~~ 에 접속했을 때 다음과 같은 일을 하세요
 router.post("/process/update", async (req, res) => {
   const userID = req.session.user.id;
-  const { lastName, firstName, nickname, password, birth, gender, state } =
-    req.body;
+  const { nickname, password } = req.body;
 
   try {
     const hashedPassword = password ? await bcrypt.hash(password, 10) : null;
@@ -65,21 +65,11 @@ router.post("/process/update", async (req, res) => {
       }
 
       const sql = `
-        UPDATE users 
-        SET Lastname = ?, Firstname = ?, nickname = ?, 
-            ${hashedPassword ? "password = ?, " : ""} 
-            birth = ?, gender = ?, state = ? 
-        WHERE id = ?`;
+        UPDATE users SET  nickname = ?, ${
+          hashedPassword ? "password = ?, " : ""
+        } WHERE id = ?`;
 
-      const params = [
-        lastName,
-        firstName,
-        nickname,
-        birth,
-        gender,
-        state,
-        userID,
-      ];
+      const params = [nickname, password];
       if (hashedPassword) {
         params.splice(3, 0, hashedPassword);
       }
