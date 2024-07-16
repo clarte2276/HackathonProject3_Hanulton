@@ -12,7 +12,7 @@ const useUserData = (initialData = {}) => {
   const fetchUserData = async () => {
     try {
       // 사용자가 로그인한 후 호출 (유저정보 가져오기)
-      const response = await axios.post('/');
+      const response = await axios.post('/mypage');
       const userData = response.data;
 
       setName(userData.name || '');
@@ -35,16 +35,16 @@ const useUserData = (initialData = {}) => {
     try {
       const updateData = {
         name,
-        nickname: usernickname,
+        nickname,
         birth,
-        id: userId,
+        id,
         password,
         store,
       };
 
       // 정보 수정 시 데이터 전달 경로
       console.log('Sending update data:', updateData);
-      const response = await axios.post('/', updateData);
+      const response = await axios.post('/mypage/process/update', updateData);
 
       if (response.status === 200) {
         alert('변경사항이 저장되었습니다.');
