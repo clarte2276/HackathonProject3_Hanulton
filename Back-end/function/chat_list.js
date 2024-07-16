@@ -40,9 +40,9 @@ router.post("/list", (req, res) => {
 
     // 메시지와 사용자 정보를 가져오는 쿼리
     const query = `
-      SELECT DISTINCT u.id, u.nickname, u.state 
-      FROM users u 
-      JOIN messages m ON u.id = m.receiver_id 
+      SELECT DISTINCT u.id, u.nickname
+      FROM users u
+      JOIN messages m ON u.id = m.receiver_id
       WHERE m.sender_id = ? AND u.id != ?
     `;
 
