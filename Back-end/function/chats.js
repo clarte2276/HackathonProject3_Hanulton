@@ -16,40 +16,60 @@ const pool = mysql.createPool({
 });
 
 // 채팅 목록
-router.post("/process/chat", (req, res) => {
+router.post("/list", (req, res) => {
   if (!req.session.user) {
     return res.status(401).send("로그인이 필요합니다.");
   }
 
   const currentUserNickname = req.session.user.nickname;
 
-  pool.query(
-    "SELECT roomId, nickname, state FROM users WHERE nickname != ?",
-    [currentUserNickname],
-    (error, results) => {
+  // 현재 사용자의 roomId를 가져오는 쿼리
+  const getRoomIdQuery = "SELECT id FROM users WHERE nickname = ?";
+
+  pool.query(getRoomIdQuery, [currentUserNickname], (error, results) => {
+    if (error) {
+      console.error(error);
+      return res.status(500).send("서버 오류");
+    }
+
+    if (results.length === 0) {
+      return res.status(404).send("사용자를 찾을 수 없습니다.");
+    }
+
+    const currentUserId = req.session.user.id;
+
+    // 메시지와 사용자 정보를 가져오는 쿼리
+    const query = `
+      SELECT DISTINCT u.id, u.nickname, u.state 
+      FROM users u 
+      JOIN messages m ON u.id = m.receiver_id 
+      WHERE m.sender_id = ? AND u.id != ?
+    `;
+
+    pool.query(query, [currentUserId, currentUserId], (error, results) => {
       if (error) {
         console.error(error);
-        res.status(500).send("서버 오류");
-      } else {
-        console.log(results); // 응답 데이터 확인을 위한 로그 추가
-        res.json(results);
+        return res.status(500).send("서버 오류");
       }
-    }
-  );
+
+      console.log(results); // 응답 데이터 확인을 위한 로그 추가
+      res.json(results);
+    });
+  });
 });
 
 // 채팅방 메시지 조회 (GET)
-router.get("/chatrooms/:my_roomid/to/:roomId/messages", (req, res) => {
-  const { my_roomid, roomId } = req.params;
-  const session_roomid = req.session.user.roomid;
+router.get("/chatroom/:sender/to/:receiver", (req, res) => {
+  const { sender, receiver } = req.params;
+  const session_id = req.session.user.id;
 
-  if (session_roomid != my_roomid) {
+  if (session_id != sender) {
     return res.status(403).send("Forbidden");
   }
 
   pool.query(
     "SELECT * FROM messages WHERE (sender_id = ? AND receiver_id = ?)",
-    [my_roomid, roomId],
+    [sender, receiver],
     (error, results) => {
       if (error) {
         console.error("Error fetching messages:", error);
@@ -61,18 +81,18 @@ router.get("/chatrooms/:my_roomid/to/:roomId/messages", (req, res) => {
 });
 
 // 새로운 메시지 전송 (POST)
-router.post("/chatrooms/:my_roomid/to/:roomId/messages", (req, res) => {
-  const { my_roomid, roomId } = req.params;
+router.post("/chatroom/:sender/to/:receiver", (req, res) => {
+  const { sender, receiver } = req.params;
   const { receiver_id, content } = req.body;
-  const session_roomid = req.session.user.roomid;
+  const session_id = req.session.user.id;
 
-  if (session_roomid != my_roomid || receiver_id != roomId) {
+  if (session_id != sender || receiver_id != receiver) {
     return res.status(403).send("Forbidden");
   }
 
   pool.query(
     "INSERT INTO messages (sender_id, receiver_id, content) VALUES (?, ?, ?)",
-    [my_roomid, receiver_id, content],
+    [sender, receiver, content],
     (error, results) => {
       if (error) {
         console.error("Message save error:", error);
@@ -81,7 +101,7 @@ router.post("/chatrooms/:my_roomid/to/:roomId/messages", (req, res) => {
       // 두 번째 쿼리를 수행하고, 모든 쿼리가 성공하면 응답을 보냅니다.
       pool.query(
         "INSERT INTO messages (sender_id, receiver_id, content) VALUES (?, ?, ?)",
-        [receiver_id, my_roomid, content],
+        [receiver, sender, content],
         (error, results) => {
           if (error) {
             console.error("Message save error:", error);
