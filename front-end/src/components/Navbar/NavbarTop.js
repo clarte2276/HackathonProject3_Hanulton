@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import plus from '../images/plus.png';
-import search from '../images/search.png';
+// import search from '../images/search.png';
 import chat from '../images/chat.png';
 import './NavbarTop.css';
 
