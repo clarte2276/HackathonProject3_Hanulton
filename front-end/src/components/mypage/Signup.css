@@ -1,31 +1,98 @@
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR&display=swap');
+
 .SignupPage {
   display: flex;
-  align-items: center;
-  justify-content: center;
   flex-direction: column;
-  margin-top: 17%;
+  margin-top: 11%;
 }
 
 .SignupPage h1 {
-  font-size: 30px;
+  position: relative;
+  width: 127px;
+  height: 47px;
+  font-family: 'IBM Plex Sans KR';
+  font-style: normal;
+  font-weight: 700;
+  font-size: 36px;
+  line-height: 130%;
+  display: flex;
+  margin: 0 auto;
+  text-align: center;
+  align-items: center;
+  letter-spacing: -0.5px;
+  color: #000000;
 }
 
 .signupTextbox {
   display: flex;
-  align-items: center;
-  justify-content: center;
   flex-direction: column;
   font-size: 12px;
+  left: 0;
+  margin: 0 0;
+}
+
+.signupTextbox p {
+  width: 70px;
+  height: 19px;
+  font-family: 'IBM Plex Sans KR';
+  font-style: normal;
+  font-weight: 700;
+  font-size: 15px;
+  line-height: 130%;
+  position: relative;
+  display: flex;
+  align-items: center;
+  letter-spacing: -0.5px;
+  color: #000000;
+  left: 0;
+  margin-left: 10%;
+  padding: 0 0;
+  margin-bottom: 1.5%;
+  margin-top: 2%;
 }
 
 .signupTextbox input {
-  margin-bottom: 2%;
+  box-sizing: border-box;
+  position: relative;
+  width: 351px;
+  height: 35px;
+  border: 1px solid #58c981;
+  border-radius: 4px;
+  margin: 0 auto;
+  padding-left: 4%;
 }
 
-.SignupBtn {
+.btnContent {
   display: flex;
   align-items: center;
   justify-content: center;
   flex-direction: column;
-  margin-top: 7%;
+}
+
+.btnContent button {
+  display: block;
+  text-align: center;
+  align-items: center;
+}
+
+.signupBtn {
+  display: block;
+  text-align: center;
+  align-items: center;
+  position: relative;
+  width: 351px;
+  height: 51px;
+  font-family: 'IBM Plex Sans KR';
+  font-style: normal;
+  font-weight: 600;
+  font-size: 18px;
+  line-height: 130%;
+  display: flex;
+  align-items: center;
+  letter-spacing: -0.5px;
+  color: #ffffff;
+  background: #58c981;
+  border-radius: 4px;
+  border: none;
+  margin-top: 10%;
 }

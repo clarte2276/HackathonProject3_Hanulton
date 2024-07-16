@@ -61,44 +61,28 @@ function Signup() {
       <form className="SignupContent" onSubmit={handleSubmit}>
         <div className="signupTextbox">
           <p>이름</p>
-          <input type="text" placeholder="이름" value={name} onChange={(e) => setName(e.target.value)} required />
+          <input type="text" value={name} onChange={(e) => setName(e.target.value)} required />
           <p>닉네임</p>
-          <input
-            type="text"
-            placeholder="닉네임"
-            value={nickname}
-            onChange={(e) => setNickname(e.target.value)}
-            required
-          />
+          <input type="text" value={nickname} onChange={(e) => setNickname(e.target.value)} required />
           <p>가게 이름</p>
-          <input
-            type="text"
-            placeholder="가게 이름"
-            value={store}
-            onChange={(e) => setStore(e.target.value)}
-            required
-          />
+          <input type="text" value={store} onChange={(e) => setStore(e.target.value)} required />
           <p>생년월일</p>
           <input
             type="text"
-            placeholder="생년월일(8자리 입력)"
+            placeholder="8자리를 입력해주세요."
             value={birth}
             onChange={(e) => setBirth(e.target.value)}
             required
           />
           <p>아이디</p>
-          <input type="text" placeholder="아이디" value={id} onChange={(e) => setId(e.target.value)} required />
+          <input type="text" value={id} onChange={(e) => setId(e.target.value)} required />
           <p>비밀번호</p>
-          <input
-            type="password"
-            placeholder="비밀번호"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-          />
+          <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} required />
         </div>
-        <div className="SignupBtn">
-          <button type="submit">회원가입</button>
+        <div className="btnContent">
+          <button type="submit" className="signupBtn">
+            회원가입
+          </button>
         </div>
       </form>
     </div>
