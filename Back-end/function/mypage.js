@@ -15,7 +15,6 @@ const pool = mysql.createPool({
   port: db_config.port,
   debug: false,
 });
-
 router.post("/", (req, res) => {
   const userID = req.session.user.id;
 
@@ -26,30 +25,59 @@ router.post("/", (req, res) => {
       return res.status(500).send("DB 서버 연결 실패");
     }
 
-    //select 할 때 db로 정보 불러오는 건데 여기서 roomid를 안가져오고 있었음. -> 수정완료
-    const exec = conn.query(
-      "SELECT name, birth, nickname, id, password, store FROM users WHERE id = ?",
-      [userID],
-      (err, rows) => {
+    const userQuery =
+      "SELECT name, birth, nickname, id, password, store FROM users WHERE id = ?";
+    const sellQuery =
+      "SELECT title, created_date FROM boardsell WHERE nickname = ?";
+    const buyQuery =
+      "SELECT title, created_date FROM boardbuy WHERE nickname = ?";
+
+    // 첫 번째 쿼리 실행 (사용자 정보 가져오기)
+    conn.query(userQuery, [userID], (err, userRows) => {
+      if (err) {
+        console.log("SQL 실행 시 오류 발생", err);
         conn.release();
-        console.log("실행된 SQL: " + exec.sql);
-
-        if (err) {
-          console.log("SQL 실행 시 오류 발생", err);
-          return res.status(500).send("사용자 정보 가져오기 실패");
-        }
-
-        if (rows.length > 0) {
-          res.json(rows[0]);
-        } else {
-          res.status(404).send("사용자 정보가 존재하지 않습니다.");
-        }
+        return res.status(500).send("사용자 정보 가져오기 실패");
       }
-    );
+
+      if (userRows.length > 0) {
+        const userNickname = userRows[0].nickname;
+
+        // 두 번째 쿼리 실행 (판매 내역 가져오기)
+        conn.query(sellQuery, [userNickname], (err, sellRows) => {
+          if (err) {
+            console.log("SQL 실행 시 오류 발생", err);
+            conn.release();
+            return res.status(500).send("판매 내역 가져오기 실패");
+          }
+
+          // 세 번째 쿼리 실행 (구매 내역 가져오기)
+          conn.query(buyQuery, [userNickname], (err, buyRows) => {
+            conn.release();
+            if (err) {
+              console.log("SQL 실행 시 오류 발생", err);
+              return res.status(500).send("구매 내역 가져오기 실패");
+            }
+
+            // 사용자 정보와 판매 및 구매 내역을 함께 응답
+            const responseData = {
+              user: userRows[0],
+              sells: sellRows,
+              buys: buyRows,
+            };
+
+            res.json(responseData);
+          });
+        });
+      } else {
+        conn.release();
+        res.status(404).send("사용자 정보가 존재하지 않습니다.");
+      }
+    });
   });
 });
 
-// /mypage/~~ 에 접속했을 때 다음과 같은 일을 하세요
+//내 정보 업데이트
 router.post("/process/update", async (req, res) => {
   const userID = req.session.user.id;
   const { nickname, password } = req.body;
