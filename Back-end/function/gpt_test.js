@@ -8,10 +8,10 @@ router.post("/ask-gpt4", async (req, res) => {
 
   try {
     const response = await axios.post(
-      "https://api.openai.com/v1/completions",
+      "https://api.openai.com/v1/chat/completions", // ChatGPT 엔드포인트
       {
-        model: "gpt-3.5-turbo",
-        prompt: prompt,
+        model: "gpt-3.5-turbo", // 모델 이름
+        messages: [{ role: "user", content: prompt }], // ChatGPT 포맷
         max_tokens: 150,
       },
       {
@@ -22,13 +22,9 @@ router.post("/ask-gpt4", async (req, res) => {
       }
     );
 
-    res.json(response.data.choices[0].text.trim());
+    res.json(response.data.choices[0].message.content.trim());
   } catch (error) {
-    console.error(
-      "Error fetching from OpenAI:",
-      error.response ? error.response.data : error.message
-    );
-    res.status(500).send(error.toString());
+    res.status(500).send(`Error fetching from OpenAI: ${error.response.data}`);
   }
 });
 

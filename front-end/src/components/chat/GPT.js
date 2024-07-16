@@ -1,12 +1,12 @@
 import React, { useState } from "react";
 
 function GPT() {
+  // 컴포넌트 이름을 GPT로 변경
   const [prompt, setPrompt] = useState("");
   const [response, setResponse] = useState("");
 
   const handleSubmit = async () => {
-    const res = await fetch("http://localhost:3000/ask-gpt4", {
-      // 백엔드 서버의 포트 번호 변경
+    const res = await fetch("/ask-gpt4", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -30,4 +30,4 @@ function GPT() {
   );
 }
 
-export default GPT;
+export default GPT; // 올바르게 내보내기
