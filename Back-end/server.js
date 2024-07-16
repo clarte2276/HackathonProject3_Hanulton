@@ -52,20 +52,14 @@ app.use(express.static(path.join(__dirname, "public")));
 const mypageRoutes = require("./function/mypage");
 const loginRoutes = require("./function/login");
 const processRoutes = require("./function/process");
-const communityRoutes = require("./function/community");
+const boardRoutes = require("./function/board");
 const chatsRoutes = require("./function/chats");
-const commentsRoutes = require("./function/comments");
-const kakaoRoutes = require("./function/kakao_login");
-const noticeRoutes = require("./function/com_notice");
 
 app.use("/", mypageRoutes);
 app.use("/", loginRoutes);
 app.use("/", processRoutes);
-app.use("/", communityRoutes);
+app.use("/", boardRoutes);
 app.use("/", chatsRoutes);
-app.use("/", commentsRoutes);
-app.use("/", kakaoRoutes);
-app.use("/", noticeRoutes);
 
 //모든 요청은 build/index.html로
 app.get("*", (req, res) => {
