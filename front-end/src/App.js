@@ -6,6 +6,7 @@ import NavbarBottom from './components/Navbar/NavbarBottom';
 import BoardSell from './components/board/BoardSell.js';
 import SellCreate from './components/board/CRUD/SellCreate.js';
 import SellRead from './components/board/CRUD/SellRead.js';
+import SellUpdate from './components/board/CRUD/SellUpdate.js';
 import Signup from './components/mypage/Signup.js';
 import Login from './components/mypage/Login.js';
 import Mypage from './components/mypage/Mypage.js';
@@ -23,6 +24,7 @@ function App() {
             <Route path="/boardsell" element={<BoardSell />} />
             <Route path="/boardsell/process/new_Post" element={<SellCreate />} />
             <Route path="/boardsell/PostView/:no" element={<SellRead />} />
+            <Route path="/boardsell/Postview/:no/process/update" element={<SellUpdate />} />
             <Route path="/signuppage" element={<Signup />} />
             <Route path="/loginpage" element={<Login />} />
             <Route path="/mypage" element={<Mypage />} />
