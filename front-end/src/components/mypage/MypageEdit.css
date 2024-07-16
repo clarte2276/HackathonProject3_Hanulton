@@ -5,15 +5,12 @@
   flex-direction: column;
 }
 
-.myPageNavbar {
-  border-bottom: 1px solid black;
-}
-
 .myPageEdit {
   display: flex;
   align-items: center;
   justify-content: center;
   flex-direction: column;
+  margin-top: 25%;
 }
 
 .userEditForm {
