@@ -142,3 +142,17 @@
   height: 230px;
   resize: none;
 }
+
+.deleteUpdate {
+  text-decoration: none;
+  color: white;
+  background-color: #6a6a6a;
+  border-radius: 7px;
+}
+
+.buyChange {
+  text-decoration: none;
+  color: black;
+  background-color: #6a6a6a;
+  padding: 3px 7px;
+}

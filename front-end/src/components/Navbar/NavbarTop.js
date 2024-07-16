@@ -63,11 +63,11 @@ function NavbarTop() {
       case '/':
         return 'Home';
       case '/buy':
-        return '삽니다!';
+        return '삽니다';
       case '/sell':
-        return '팝니다!';
+        return '팝니다';
       case '/ads':
-        return '광고홍보!';
+        return '광고홍보';
       default:
         return '반가워요!';
     }
@@ -88,6 +88,7 @@ function NavbarTop() {
           </ul>
         </div>
         <div className="searchChat">
+          <div>+</div>
           <div>검색</div>
           <div>채팅</div>
         </div>

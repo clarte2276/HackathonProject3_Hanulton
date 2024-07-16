@@ -61,6 +61,7 @@ function SellRead() {
   }
 
   const { title, nickname, created_date, content, sellprice, originprice } = post;
+  const discountRate = originprice && sellprice ? ((1 - sellprice / originprice) * 100).toFixed(2) : 0;
 
   return (
     <div className="Read_all">
@@ -68,12 +69,14 @@ function SellRead() {
         <div className="ReadTitle">{title}</div>
         <div className="infoUpdateDelete">
           <div className="info">
-            <div>{nickname}</div>
-            <div>{created_date}</div>
+            <p>닉네임 : {nickname}</p>
+            <p>{created_date}</p>
           </div>
           <div className="updateDelete">
-            <Link to={`/boardsell/Postview/${no}/process/update`}>수정</Link>
-            <div onClick={handleDelete} style={{ cursor: 'pointer' }}>
+            <Link className="deleteUpdate" to={`/boardsell/Postview/${no}/process/update`}>
+              수정
+            </Link>
+            <div className="deleteUpdate" onClick={handleDelete} style={{ cursor: 'pointer' }}>
               삭제
             </div>
           </div>
@@ -82,16 +85,20 @@ function SellRead() {
           <div>판매 가격 : {sellprice}</div>
           <div>
             <div>정가 : {originprice}</div>
-            <div>할인율</div>
+            <div>할인율 : {discountRate}%</div>
           </div>
         </div>
         <div className="ReadContent">{content}</div>
         <div>
           <div>
-            <Link to={'/'}>바로구매</Link>
+            <Link className="buyChange" to={'/'}>
+              바로구매
+            </Link>
           </div>
           <div>
-            <Link to={'/'}>교환신청</Link>
+            <Link className="buyChange" to={'/'}>
+              교환신청
+            </Link>
           </div>
         </div>
       </div>

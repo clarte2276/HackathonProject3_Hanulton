@@ -14,13 +14,16 @@ import './Board.css';
 const BoardSell = () => {
   const [dataList, setDataList] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
+  const [searchKeyword, setSearchKeyword] = useState('');
   const postsPerPage = 10;
   const location = useLocation();
 
-  const fetchData = async () => {
+  const fetchData = async (keyword = '') => {
     try {
       // 백엔드에서 게시글 목록을 가져옴
-      const response = await axios.post(`/boardsell`);
+      const endpoint = keyword ? `/boardsell/search?keyword=${encodeURIComponent(keyword)}` : '/boardsell';
+
+      const response = await axios.get(endpoint);
       console.log('응답 데이터:', response.data); // 응답 데이터 출력
       setDataList(Array.isArray(response.data) ? response.data : []);
     } catch (error) {
@@ -51,6 +54,11 @@ const BoardSell = () => {
     setCurrentPage(pageNumber);
   };
 
+  const handleSearch = (e) => {
+    e.preventDefault();
+    fetchData(searchKeyword);
+  };
+
   return (
     <>
       <NavbarTop />
@@ -58,6 +66,16 @@ const BoardSell = () => {
         <div className="BoardTop_layout">
           <TitleBodyBoard title="팝니다" body="팔아보세요" />
         </div>
+        <form onSubmit={handleSearch} className="SearchForm">
+          <input
+            type="text"
+            value={searchKeyword}
+            onChange={(e) => setSearchKeyword(e.target.value)}
+            placeholder="검색어를 입력하세요"
+          />
+          <button type="submit">검색</button>
+        </form>
+
         <ListBoard headersName={['제목', '작성자', '작성일']}>
           {currentPosts.length > 0 ? (
             currentPosts.map((item, index) => (
