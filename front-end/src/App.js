@@ -10,6 +10,8 @@ import Signup from './components/mypage/Signup.js';
 import Login from './components/mypage/Login.js';
 import Mypage from './components/mypage/Mypage.js';
 import MypageEdit from './components/mypage/MypageEdit.js';
+import Chatlist from './components/chat/Chatlist.js';
+import Chatroom from './components/chat/Chatroom.js';
 
 function App() {
   return (
@@ -25,6 +27,8 @@ function App() {
             <Route path="/loginpage" element={<Login />} />
             <Route path="/mypage" element={<Mypage />} />
             <Route path="/mypage/edit" element={<MypageEdit />} />
+            <Route path="/chat/list" element={<Chatlist />} />
+            <Route path="/chat/chatroom/:sender/to/:receiver" element={<Chatroom />} />
           </Routes>
         </div>
         <div>
