@@ -21,7 +21,7 @@
 }
 
 .ListBoard {
-  width: 900px;
+  width: 420px;
   margin: 0 auto;
   text-align: center;
   border-spacing: 0;
@@ -50,13 +50,14 @@
   color: white;
   background-color: #17499e;
   padding: 10px;
-  border-radius: 10%;
+  border-radius: 8px;
 }
 
 .CreateButton {
   display: flex;
   justify-content: right;
   margin: 25px 0px;
+  font-size: 12px;
   width: 100%;
 }
 
