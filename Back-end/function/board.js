@@ -193,7 +193,7 @@ const updatePostState = (tableName, postId, newState, req, res) => {
 // 각각의 게시판 라우터 생성
 const createBoardRoutes = (boardName, tableName) => {
   // 게시판 데이터 가져오기
-  router.get(`/${boardName}`, (req, res) => {
+  router.post(`/${boardName}`, (req, res) => {
     getBoardData(tableName, res);
   });
 
