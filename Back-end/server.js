@@ -51,15 +51,17 @@ app.use(express.static(path.join(__dirname, "public")));
 //js파일 연동
 const mypageRoutes = require("./function/mypage");
 const loginRoutes = require("./function/login");
-const processRoutes = require("./function/use_cookie");
+const use_cookieRoutes = require("./function/use_cookie");
 const boardRoutes = require("./function/board");
 const chatsRoutes = require("./function/chats");
+const searchRoutes = require("./function/search");
 
 app.use("/", mypageRoutes);
 app.use("/", loginRoutes);
-app.use("/", processRoutes);
+app.use("/", use_cookieRoutes);
 app.use("/", boardRoutes);
 app.use("/", chatsRoutes);
+app.use("/", searchRoutes);
 
 //모든 요청은 build/index.html로
 app.get("*", (req, res) => {

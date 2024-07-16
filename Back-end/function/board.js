@@ -1,4 +1,4 @@
-//보드 게시판
+//보드 게시판, boardbuy boardsell boardads
 const express = require('express');
 const mysql = require('mysql');
 const db_config = require('../config/db_config.json');
