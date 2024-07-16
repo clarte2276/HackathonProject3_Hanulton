@@ -9,15 +9,15 @@ function Mypage() {
   const navigate = useNavigate();
   const {
     name,
-    usernickname,
+    nickname,
     birth,
-    userId,
+    id,
     password,
     store,
     setName,
-    setUsernickname,
+    setNickname,
     setBirth,
-    setUserId,
+    setId,
     setPassword,
     setStore,
     handleSave,
@@ -63,10 +63,10 @@ function Mypage() {
           <p>{store}</p>
         </div>
         <div className="userProfileNickname">
-          <p>{usernickname}</p>
+          <p>{nickname}</p>
         </div>
         <div className="centered">
-          <button className="editBtn" onClick={() => navigate('/mypageedit')}>
+          <button className="editBtn" onClick={() => navigate('/mypage/edit')}>
             프로필 수정
           </button>
           <button className="logoutBtn" onClick={handleLogout}>

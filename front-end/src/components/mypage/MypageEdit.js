@@ -9,15 +9,15 @@ function MypageEdit() {
   const navigate = useNavigate();
   const {
     name,
-    usernickname,
+    nickname,
     birth,
-    userId,
+    id,
     password,
     store,
     setName,
-    setUsernickname,
+    setNickname,
     setBirth,
-    setUserId,
+    setId,
     setPassword,
     setStore,
     handleSave,
@@ -32,8 +32,8 @@ function MypageEdit() {
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     switch (name) {
-      case 'usernickname':
-        setUsernickname(value);
+      case 'nickname':
+        setNickname(value);
         break;
       case 'password':
         setPassword(value);
@@ -62,13 +62,7 @@ function MypageEdit() {
           </p>
           <p>
             닉네임
-            <input
-              type="text"
-              name="usernickname"
-              placeholder="닉네임"
-              value={usernickname}
-              onChange={handleInputChange}
-            />
+            <input type="text" name="nickname" placeholder="닉네임" value={nickname} onChange={handleInputChange} />
           </p>
           <p>
             가게 이름
@@ -80,7 +74,7 @@ function MypageEdit() {
           </p>
           <div className="userEditInfo">
             <p className="a_id">
-              아이디 <input type="text" placeholder="아이디" value={userId} disabled />
+              아이디 <input type="text" placeholder="아이디" value={id} disabled />
             </p>
             <p className="a_pw">
               비밀번호

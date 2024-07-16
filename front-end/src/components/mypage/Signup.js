@@ -8,15 +8,15 @@ function Signup() {
   const navigate = useNavigate();
   const {
     name,
-    usernickname,
+    nickname,
     birth,
-    userId,
+    id,
     password,
     store,
     setName,
-    setUsernickname,
+    setNickname,
     setBirth,
-    setUserId,
+    setId,
     setPassword,
     setStore,
     handleSave,
@@ -25,12 +25,12 @@ function Signup() {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    if (name && usernickname && birth && userId && password && store) {
+    if (name && nickname && birth && id && password && store) {
       const signupData = {
         name,
-        usernickname,
+        nickname,
         birth,
-        username: userId,
+        id,
         password,
         store,
       };
@@ -66,8 +66,8 @@ function Signup() {
           <input
             type="text"
             placeholder="닉네임"
-            value={usernickname}
-            onChange={(e) => setUsernickname(e.target.value)}
+            value={nickname}
+            onChange={(e) => setNickname(e.target.value)}
             required
           />
           <p>가게 이름</p>
@@ -87,7 +87,7 @@ function Signup() {
             required
           />
           <p>아이디</p>
-          <input type="text" placeholder="아이디" value={userId} onChange={(e) => setUserId(e.target.value)} required />
+          <input type="text" placeholder="아이디" value={id} onChange={(e) => setId(e.target.value)} required />
           <p>비밀번호</p>
           <input
             type="password"
