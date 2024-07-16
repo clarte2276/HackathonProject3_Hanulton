@@ -2,7 +2,6 @@
 // import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 // import './App.css';
 // import Home from './components/home/Home';
-// import NavbarTop from './components/Navbar/NavbarTop';
 // import NavbarBottom from './components/Navbar/NavbarBottom';
 // import BoardBuy from './components/board/BoardBuy';
 // import Signup from './components/mypage/Signup.js';
@@ -14,17 +13,10 @@
 //   return (
 //     <div className="App">
 //       <Router>
-//         <div>
-//           <NavbarTop />
-//         </div>
 //         <div className="content">
 //           <Routes>
 //             <Route path="/" element={<Home />} />
 //             <Route path="/buy" element={<BoardBuy />} />
-// <Route path="/signuppage" element={<Signup />} />
-// <Route path="/loginpage" element={<Login />} />
-// <Route path="/mypage" element={<Mypage />} />
-// <Route path="/mypage/edit" element={MypageEdit />} />
 //           </Routes>
 //         </div>
 //         <div>
@@ -34,5 +26,6 @@
 //     </div>
 //   );
 // }
+// >>>>>>> e205e0c6fe2f46dfb228cd92e589fe397e7b46aa
 
-// export default App;
+// // export default App;
