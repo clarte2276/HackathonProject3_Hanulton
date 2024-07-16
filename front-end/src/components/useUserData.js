@@ -3,9 +3,9 @@ import axios from 'axios';
 
 const useUserData = (initialData = {}) => {
   const [name, setName] = useState(initialData.name || '');
-  const [usernickname, setUsernickname] = useState(initialData.usernickname || '');
+  const [nickname, setNickname] = useState(initialData.usernickname || '');
   const [birth, setBirth] = useState(initialData.birth || '');
-  const [userId, setUserId] = useState(initialData.userId || '');
+  const [id, setId] = useState(initialData.userId || '');
   const [password, setPassword] = useState(initialData.password || '');
   const [store, setStore] = useState(initialData.store || '');
 
@@ -16,9 +16,9 @@ const useUserData = (initialData = {}) => {
       const userData = response.data;
 
       setName(userData.name || '');
-      setUsernickname(userData.nickname || '');
+      setNickname(userData.nickname || '');
       setBirth(userData.birth || '');
-      setUserId(userData.id || ''); // 아이디 값 변경 불가
+      setId(userData.id || ''); // 아이디 값 변경 불가
       setPassword(userData.password || '');
       setStore(userData.store || '');
     } catch (error) {
@@ -60,15 +60,15 @@ const useUserData = (initialData = {}) => {
 
   return {
     name,
-    usernickname,
+    nickname,
     birth,
-    userId,
+    id,
     password,
     store,
     setName,
-    setUsernickname,
+    setNickname,
     setBirth,
-    setUserId,
+    setId,
     setPassword,
     setStore,
     handleSave,
