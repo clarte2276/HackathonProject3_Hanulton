@@ -1,60 +1,60 @@
-import React, { useState, useEffect } from 'react';
-import './Chatlist.css';
-import { Link, useNavigate } from 'react-router-dom';
-import axios from 'axios';
-import useUserData from '../useUserData';
-import BasicNavbar from '../Navbar/BasicNavbar';
-import chatProfile from '../images/chatProfile.png';
+import React, { useState, useEffect } from "react";
+import "./Chatlist.css";
+import { Link, useNavigate } from "react-router-dom";
+import axios from "axios";
+import useUserData from "../useUserData";
+import BasicNavbar from "../Navbar/BasicNavbar";
+import chatProfile from "../images/chatProfile.png";
 
 const Chatlist = () => {
   const [dataList, setDataList] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
-  const [currentUser, setCurrentUser] = useState(null);
+  const { id, setId, fetchUserData } = useUserData();
   const postsPerPage = 5;
 
   const navigate = useNavigate();
-  const { id, setId, handleSave, fetchUserData } = useUserData();
 
   useEffect(() => {
     axios
-      .get('/process/check-login', { withCredentials: true })
+      .get("/process/check-login", { withCredentials: true })
       .then((response) => {
         if (!response.data.loggedIn) {
-          navigate('/loginpage');
+          navigate("/loginpage");
         } else {
-          setCurrentUser(response.data.id); // 현재 사용자 ID 설정
-          fetchChatList();
+          fetchUserData(); // 현재 사용자 정보 로드
         }
       })
       .catch((error) => {
-        console.error('Error checking login status:', error);
+        console.error("Error checking login status:", error);
       });
-  }, [navigate]);
+  }, [navigate, fetchUserData]);
 
   useEffect(() => {
-    if (currentUser) {
+    if (id) {
       fetchChatList();
     }
-  }, [currentUser]);
+  }, [id]);
 
   const fetchChatList = () => {
     axios
-      .post('/chat/list', {}, { withCredentials: true })
+      .post("/chat/list", {}, { withCredentials: true })
       .then((response) => {
         setDataList(response.data);
       })
       .catch((error) => {
-        console.error('There was an error fetching the chat list!', error);
+        console.error("There was an error fetching the chat list!", error);
       });
   };
 
   const indexOfLastPost = currentPage * postsPerPage;
   const indexOfFirstPost = indexOfLastPost - postsPerPage;
-  const currentPosts = Array.isArray(dataList) ? dataList.slice(indexOfFirstPost, indexOfLastPost) : [];
+  const currentPosts = Array.isArray(dataList)
+    ? dataList.slice(indexOfFirstPost, indexOfLastPost)
+    : [];
 
   const handleChatItemClick = (receiverId) => {
-    if (currentUser) {
-      navigate(`/chat/chatroom/${currentUser}/to/${receiverId}`);
+    if (id) {
+      navigate(`/chat/chatroom/${id}/to/${receiverId}`);
     }
   };
 
@@ -88,11 +88,18 @@ const Chatlist = () => {
           </ul>
         </div>
         <div className="pagination">
-          {Array.from({ length: Math.ceil(dataList.length / postsPerPage) }, (_, i) => (
-            <button key={i + 1} onClick={() => setCurrentPage(i + 1)} className={currentPage === i + 1 ? 'active' : ''}>
-              {i + 1}
-            </button>
-          ))}
+          {Array.from(
+            { length: Math.ceil(dataList.length / postsPerPage) },
+            (_, i) => (
+              <button
+                key={i + 1}
+                onClick={() => setCurrentPage(i + 1)}
+                className={currentPage === i + 1 ? "active" : ""}
+              >
+                {i + 1}
+              </button>
+            )
+          )}
         </div>
       </div>
     </div>
