@@ -86,7 +86,13 @@ const BoardSell = () => {
               <RowListBoard key={index}>
                 <Link to={`/boardsell/PostView/${item.no}`} style={{ textDecoration: 'none' }}>
                   <ColumnListBoard>
-                    <div className="maybeimg"></div>
+                    {item.imageUrl && (
+                      <img
+                        src={item.imageUrl}
+                        alt="게시글 이미지"
+                        style={{ maxWidth: '100px', maxHeight: '100px' }}
+                      />
+                    )}
                   </ColumnListBoard>
                   <ColumnListBoard>
                     <div className="titlePrice">

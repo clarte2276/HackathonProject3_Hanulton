@@ -43,12 +43,16 @@ const executeQuery = (query, params, res, callback) => {
 
 // 게시판 데이터 가져오기
 const getBoardData = (tableName, res) => {
-  const query = `SELECT no, title, nickname, content, DATE_FORMAT(created_date, '%Y년 %m월 %d일 %H시 %i분') AS created_date, state, originprice, sellprice, file_path FROM ${tableName}`;
+  const query = `SELECT no, title, nickname, content, DATE_FORMAT(created_date, '%Y년 %m월 %d일 %H시 %i분') AS created_date, state, originprice, sellprice, file_data FROM ${tableName}`;
   executeQuery(query, [], res, (results) => {
     if (results.length === 0) {
       res.status(404).json({ message: "해당 게시판에 게시물이 없습니다." });
     } else {
-      res.json(results);
+      const posts = results.map(post => ({
+        ...post,
+        imageUrl: `/boardsell/image/${post.no}`
+      }));
+      res.json(posts);
     }
   });
 };
