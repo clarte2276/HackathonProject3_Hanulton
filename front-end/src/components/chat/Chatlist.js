@@ -7,6 +7,7 @@ import BasicNavbar from '../Navbar/BasicNavbar';
 const Chatlist = () => {
   const [dataList, setDataList] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
+  const [currentUser, setCurrentUser] = useState(null);
   const postsPerPage = 5;
   const navigate = useNavigate();
 
@@ -17,13 +18,20 @@ const Chatlist = () => {
         if (!response.data.loggedIn) {
           navigate('/loginpage');
         } else {
+          setCurrentUser(response.data.userId); // 현재 사용자 ID 설정
           fetchChatList();
         }
       })
       .catch((error) => {
         console.error('Error checking login status:', error);
       });
-  }, []);
+  }, [navigate]);
+
+  useEffect(() => {
+    if (currentUser) {
+      fetchChatList();
+    }
+  }, [currentUser]);
 
   const fetchChatList = () => {
     axios
@@ -40,30 +48,45 @@ const Chatlist = () => {
   const indexOfFirstPost = indexOfLastPost - postsPerPage;
   const currentPosts = Array.isArray(dataList) ? dataList.slice(indexOfFirstPost, indexOfLastPost) : [];
 
-  const handleChatItemClick = (userId) => {
-    window.parent.postMessage({ userId }, '*');
+  const handleChatItemClick = (receiverId) => {
+    if (currentUser) {
+      navigate(`/chat/chatroom/${currentUser}/to/${receiverId}`);
+    }
   };
 
   return (
-    <div>
+    <div className="chatlistPageAll">
       <BasicNavbar title="채팅" />
-      <ul>
-        {currentPosts.map((item) => (
-          <li key={item.id}>
-            <div className="img_name">
-              <Link className="chat-item" onClick={() => handleChatItemClick(item.id)}>
-                <span className="user_nickname">{item.nickname}</span>
-              </Link>
-            </div>
-          </li>
-        ))}
-      </ul>
-      <div className="pagination">
-        {Array.from({ length: Math.ceil(dataList.length / postsPerPage) }, (_, i) => (
-          <button key={i + 1} onClick={() => setCurrentPage(i + 1)} className={currentPage === i + 1 ? 'active' : ''}>
-            {i + 1}
+      <div className="chatlistPage">
+        <div className="chatlistBtn">
+          <button className="GPTBtn">
+            <Link to="/GPT" className="chatlistLink">
+              요리 친구 구하기
+            </Link>
           </button>
-        ))}
+        </div>
+        <ul>
+          {currentPosts.map((item) => (
+            <li key={item.id}>
+              <div className="img_name">
+                <Link
+                  className="chat-item"
+                  onClick={() => handleChatItemClick(item.id)}
+                  to={`/chat/chatroom/${currentUser}/to/${item.id}`}
+                >
+                  <span className="user_nickname">{item.nickname}</span>
+                </Link>
+              </div>
+            </li>
+          ))}
+        </ul>
+        <div className="pagination">
+          {Array.from({ length: Math.ceil(dataList.length / postsPerPage) }, (_, i) => (
+            <button key={i + 1} onClick={() => setCurrentPage(i + 1)} className={currentPage === i + 1 ? 'active' : ''}>
+              {i + 1}
+            </button>
+          ))}
+        </div>
       </div>
     </div>
   );
