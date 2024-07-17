@@ -3,7 +3,12 @@
 .SignupPage {
   display: flex;
   flex-direction: column;
-  margin-top: 11%;
+  justify-content: flex-start;
+  position: fixed;
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+  margin-top: 15%;
 }
 
 .SignupPage h1 {
@@ -94,5 +99,5 @@
   background: #58c981;
   border-radius: 4px;
   border: none;
-  margin-top: 10%;
+  margin-top: 20%;
 }

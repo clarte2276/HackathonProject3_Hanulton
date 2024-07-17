@@ -1,8 +1,16 @@
+<<<<<<< HEAD
 import React, { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import BasicNavbar from "../../Navbar/BasicNavbar";
 import "./CRUD.css";
 import axios from "axios";
+=======
+import React, { useState } from 'react';
+import { useNavigate, useLocation } from 'react-router-dom';
+import BasicNavbar from '../../Navbar/BasicNavbar';
+import './CRUD.css';
+import axios from 'axios';
+>>>>>>> cd566c22e873537f2a6c941c651a8a44e047490d
 
 function SellCreate() {
   const navigate = useNavigate();
@@ -15,7 +23,7 @@ function SellCreate() {
     originprice: "",
     body: gptResponse || "", // gptResponse를 초기값으로 설정
   });
-  const [file, setFile] = useState(null); // 파일 상태 추가
+  const [file, setFile] = useState(null);
 
   const { title, body, sellprice, originprice } = board;
 
@@ -28,13 +36,14 @@ function SellCreate() {
   };
 
   const onFileChange = (event) => {
-    setFile(event.target.files[0]); // 파일 상태 업데이트
+    setFile(event.target.files[0]);
   };
 
   const saveBoard = async (event) => {
     event.preventDefault();
 
     const formData = new FormData();
+<<<<<<< HEAD
     formData.append("file", file); // 파일 추가
     formData.append("no", nextNo);
     formData.append("title", title);
@@ -42,6 +51,15 @@ function SellCreate() {
     formData.append("created_date", new Date().toISOString());
     formData.append("originprice", originprice);
     formData.append("sellprice", sellprice);
+=======
+    formData.append('file', file);
+    formData.append('no', nextNo);
+    formData.append('title', title);
+    formData.append('content', body);
+    formData.append('created_date', new Date().toISOString());
+    formData.append('originprice', originprice);
+    formData.append('sellprice', sellprice);
+>>>>>>> cd566c22e873537f2a6c941c651a8a44e047490d
 
     try {
       const response = await axios.post(
@@ -55,8 +73,12 @@ function SellCreate() {
         }
       );
       const newPostId = response.data.no;
+<<<<<<< HEAD
       console.log("왜안돼", { newPostId }, response.data);
       alert("등록되었습니다.");
+=======
+      alert('등록되었습니다.');
+>>>>>>> cd566c22e873537f2a6c941c651a8a44e047490d
       navigate(`/boardsell`, { state: { newPostId } });
     } catch (error) {
       console.error("Error saving post:", error);
@@ -68,86 +90,105 @@ function SellCreate() {
     navigate("/boardsell");
   };
 
+  const getBoard = () => {
+    switch (location.pathname) {
+      case '/boardsell/process/new_Post':
+        return '팝니다';
+      case '/boardbuy/process/new_Post':
+        return '삽니다';
+      case '/boardads/process/new_Post':
+        return '홍보';
+      default:
+        return '';
+    }
+  };
+
   return (
     <div className="Create_all">
       <div>
         <div>
           <BasicNavbar title="글쓰기" />
         </div>
+        <div className="boardName_layout">
+          <div className="boardTitle">게시판</div>
+          <div className="boardName">{getBoard()}</div>
+        </div>
         <form onSubmit={saveBoard}>
-          <div className="titleBody_layout">
-            <div>
+          <div className="BoardInput_all">
+            <div className="titleBody_layout">
               <p>
-                <span className="titleBody_name">제목</span>
-              </p>
-              <input
-                className="titleInput"
-                type="text"
-                name="title"
-                placeholder="제목을 입력하세요"
-                value={title}
-                onChange={onChange}
-              />
-            </div>
-            <div>
-              <div>
-                <p>
-                  <span className="titleBody_name">판매 가격</span>
+                <p className="titleBody_nameLayout">
+                  <span className="titleBody_name">제목</span>
                 </p>
                 <input
-                  className="sellpriceInput"
+                  className="titleInput"
                   type="text"
-                  name="sellprice"
-                  placeholder="판매 가격"
-                  value={sellprice}
+                  name="title"
+                  placeholder="제목을 입력하세요"
+                  value={title}
                   onChange={onChange}
                 />
-              </div>
-              <div>
-                <p>
-                  <span className="titleBody_name">정가</span>
+              </p>
+              <p className="sellOriginPrice">
+                <div>
+                  <p className="titleBody_nameLayout">
+                    <span className="titleBody_name">판매 가격</span>
+                  </p>
+                  <input
+                    className="sellpriceInput"
+                    type="text"
+                    name="sellprice"
+                    placeholder="판매 가격"
+                    value={sellprice}
+                    onChange={onChange}
+                  />
+                </div>
+                <div>
+                  <p className="titleBody_nameLayout">
+                    <span className="titleBody_name">정가</span>
+                  </p>
+                  <input
+                    className="originpriceInput"
+                    type="text"
+                    name="originprice"
+                    placeholder="정가"
+                    value={originprice}
+                    onChange={onChange}
+                  />
+                </div>
+              </p>
+            </div>
+            <br />
+            <div className="titleBody_layout">
+              <div className="Body_layout">
+                <p className="titleBody_nameLayout">
+                  <span className="titleBody_name">글내용</span>
                 </p>
-                <input
-                  className="originpriceInput"
-                  type="text"
-                  name="originprice"
-                  placeholder="정가"
-                  value={originprice}
+                <textarea
+                  className="BodyInput"
+                  name="body"
+                  placeholder="내용을 입력하세요"
+                  value={body}
                   onChange={onChange}
-                />
+                ></textarea>
               </div>
             </div>
-          </div>
-          <br />
-          <div className="titleBody_layout">
-            <div>
-              <p>
-                <span className="titleBody_name">글내용</span>
-              </p>
-              <textarea
-                className="BodyInput"
-                name="body"
-                placeholder="내용을 입력하세요"
-                value={body}
-                onChange={onChange}
-              ></textarea>
+            <br />
+            <div className="titleBody_layout">
+              <div>
+                <p className="titleBody_nameLayout">
+                  <span className="titleBody_name">사진 업로드</span>
+                </p>
+                <input className="imgUp" type="file" onChange={onFileChange} />
+              </div>
             </div>
-          </div>
-          <br />
-          <div className="titleBody_layout">
-            <div>
-              <p>
-                <span className="titleBody_name">이미지 업로드</span>
-              </p>
-              <input type="file" onChange={onFileChange} />
+            <br />
+            <div className="btn_layout">
+              <button className="backBtn" type="button" onClick={backToList}>
+                취소
+              </button>
+              <input className="CreateBtn" type="submit" value="작성완료"></input>
             </div>
-          </div>
-          <br />
-          <div className="btn_layout">
-            <button className="backBtn" type="button" onClick={backToList}>
-              취소
-            </button>
-            <input className="CreateBtn" type="submit" value="작성완료"></input>
           </div>
         </form>
       </div>
