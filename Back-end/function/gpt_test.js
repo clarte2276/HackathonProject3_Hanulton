@@ -7,7 +7,7 @@ router.post("/ask-gpt4", async (req, res) => {
   const ingredients = req.body.ingredients; // 프롬프트 대신 식재료 목록을 받음
   const prompt = `나는 식재료품 ${ingredients.join(
     ", "
-  )}을 갖고있어. 이걸로 만들 수 있는 요리를 추천해줘. 그리고 그 요리를 만드는데 필요한 추가적인 재료를 알려줘. 마지막으로 레시피를 알려줘.`;
+  )}을 갖고있어. 이걸로 만들 수 있는 요리를 추천해줘. 그리고 그 요리를 만드는데 필요한 추가적인 재료를 알려줘. 마지막으로 레시피를 알려줘. 답변 양식은 다음과 같이 해줘. 추천 음식: {data}\n더 필요한 재료: {data}\n<레시피>{data}\n`;
 
   try {
     const response = await axios.post(
