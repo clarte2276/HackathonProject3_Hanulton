@@ -1,24 +1,28 @@
-import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
-import axios from 'axios';
-import './Chatroom.css';
+import React, { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
+import axios from "axios";
+import "./Chatroom.css";
 
 const Chatroom = () => {
   const { sender, receiver } = useParams();
   const [messages, setMessages] = useState([]);
-  const [newMessage, setNewMessage] = useState('');
+  const [newMessage, setNewMessage] = useState("");
   const [roomMessages, setRoomMessages] = useState([]);
 
   // 주기적으로 메시지를 가져오는 함수
   const fetchMessages = async () => {
     try {
-      console.log(`Fetching messages for sender ${sender} to receiver ${receiver}`);
-      const response = await axios.get(`/chat/chatroom/${sender}/to/${receiver}`);
-      console.log('Fetched messages:', response.data);
+      console.log(
+        `Fetching messages for sender ${sender} to receiver ${receiver}`
+      );
+      const response = await axios.get(
+        `/chat/chatroom/${sender}/to/${receiver}`
+      );
+      console.log("Fetched messages:", response.data);
       if (Array.isArray(response.data)) {
         setMessages(response.data);
       } else {
-        console.error('Fetched data is not an array:', response.data);
+        console.error("Fetched data is not an array:", response.data);
         // 메세지를 받아올 때 isMyMessage 속성 설정
         const processedMessages = response.data.map((msg) => ({
           ...msg,
@@ -28,7 +32,7 @@ const Chatroom = () => {
         setMessages(processedMessages);
       }
     } catch (error) {
-      console.error('Error fetching messages:', error);
+      console.error("Error fetching messages:", error);
     }
   };
 
@@ -37,7 +41,7 @@ const Chatroom = () => {
     fetchMessages();
 
     // 1초마다 fetchMessages 함수를 호출
-    const interval = setInterval(fetchMessages, 100);
+    const interval = setInterval(fetchMessages, 5000);
 
     // 컴포넌트가 언마운트될 때 인터벌 정리
     return () => clearInterval(interval);
@@ -48,45 +52,33 @@ const Chatroom = () => {
       setRoomMessages(
         messages.filter(
           (msg) =>
-            (msg.receiver === receiver && msg.sender === sender) || (msg.receiver === sender && msg.sender === receiver)
+            (msg.receiver === receiver && msg.sender === sender) ||
+            (msg.receiver === sender && msg.sender === receiver)
         )
       );
     }
   }, [messages, receiver, sender]);
 
   const handleSendMessage = async () => {
-    if (newMessage.trim() === '') return;
+    if (newMessage.trim() === "") return;
     try {
-      console.log('Sending message:', {
+      console.log("Sending message:", {
         sender,
         receiver,
         content: newMessage,
       });
 
       // 백엔드에 새 메시지 보내기
-      const response = await axios.post(`/chat/chatroom/${sender}/to/${receiver}`, {
-        sender,
-        receiver,
-        content: newMessage,
-      });
+      const response = await axios.post(
+        `/chat/chatroom/${sender}/to/${receiver}`,
+        {
+          sender,
+          receiver,
+          content: newMessage,
+        }
+      );
 
-      console.log('Response:', response);
-
-      //     // 메시지를 성공적으로 보낸 후 메시지 목록 업데이트
-      //     setMessages((prevMessages) => [
-      //       ...prevMessages,
-      //       {
-      //         sender_id,
-      //         receiver_id,
-      //         content: newMessage,
-      //         isMyMessage: true,
-      //       },
-      //     ]);
-      //     setNewMessage('');
-      //   } catch (error) {
-      //     console.error('Error sending message:', error);
-      //   }
-      // };
+      console.log("Response:", response);
 
       // 메시지를 성공적으로 보낸 후 메시지 목록 업데이트
       const newMsg = {
@@ -98,9 +90,9 @@ const Chatroom = () => {
 
       // 기존 메시지에 추가하지 않고 새 배열로 설정하여 유지
       setMessages((prevMessages) => [...prevMessages, newMsg]);
-      setNewMessage('');
+      setNewMessage("");
     } catch (error) {
-      console.error('Error sending message:', error);
+      console.error("Error sending message:", error);
     }
   };
 
@@ -108,8 +100,17 @@ const Chatroom = () => {
     <div className="chattingRoom">
       <div className="chatroom-messages">
         {roomMessages.map((msg, index) => (
-          <div key={index} className={msg.isMyMessage ? 'my-message-container' : 'other-message-container'}>
-            <p className={msg.isMyMessage ? 'my-message' : 'other-message'}>{msg.content}</p>
+          <div
+            key={index}
+            className={
+              msg.isMyMessage
+                ? "my-message-container"
+                : "other-message-container"
+            }
+          >
+            <p className={msg.isMyMessage ? "my-message" : "other-message"}>
+              {msg.content}
+            </p>
           </div>
         ))}
       </div>
