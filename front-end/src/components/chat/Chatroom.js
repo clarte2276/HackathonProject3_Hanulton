@@ -35,7 +35,7 @@ const Chatroom = () => {
 
   const fetchUserInfo = async () => {
     try {
-      const response = await axios.get("/api/user"); // 사용자의 닉네임을 가져오는 API 엔드포인트
+      const response = await axios.get("/api/user", { withCredentials: true }); // 사용자 정보를 가져오는 API 엔드포인트
       setMyNickname(response.data.nickname);
     } catch (error) {
       console.error("Error fetching user info:", error);
@@ -103,7 +103,6 @@ const Chatroom = () => {
       console.error("Error sending message:", error);
     }
   };
-
   return (
     <div className="chattingRoom">
       <div className="chatroom-messages">
