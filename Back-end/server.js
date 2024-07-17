@@ -58,6 +58,7 @@ const chatsRoutes = require("./function/chat_list");
 const searchRoutes = require("./function/search");
 const loginRoutes = require("./function/login");
 const gptRoutes = require("./function/gpt_test");
+const chattingRoutes = require("./function/chatting");
 
 app.use("/", mypageRoutes);
 app.use("/", loginRoutes);
@@ -65,6 +66,7 @@ app.use("/", use_cookieRoutes);
 app.use("/", boardRoutes);
 app.use("/", chatsRoutes);
 app.use("/", searchRoutes);
+app.use("/", chattingRoutes);
 app.use("/", gptRoutes); // 여기에 주의
 
 //모든 요청은 build/index.html로
