@@ -1,16 +1,13 @@
-<<<<<<< HEAD
 import React, { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import BasicNavbar from "../../Navbar/BasicNavbar";
 import "./CRUD.css";
 import axios from "axios";
-=======
-import React, { useState } from 'react';
-import { useNavigate, useLocation } from 'react-router-dom';
-import BasicNavbar from '../../Navbar/BasicNavbar';
-import './CRUD.css';
-import axios from 'axios';
->>>>>>> cd566c22e873537f2a6c941c651a8a44e047490d
+import React, { useState } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
+import BasicNavbar from "../../Navbar/BasicNavbar";
+import "./CRUD.css";
+import axios from "axios";
 
 function SellCreate() {
   const navigate = useNavigate();
@@ -43,7 +40,7 @@ function SellCreate() {
     event.preventDefault();
 
     const formData = new FormData();
-<<<<<<< HEAD
+
     formData.append("file", file); // 파일 추가
     formData.append("no", nextNo);
     formData.append("title", title);
@@ -51,15 +48,6 @@ function SellCreate() {
     formData.append("created_date", new Date().toISOString());
     formData.append("originprice", originprice);
     formData.append("sellprice", sellprice);
-=======
-    formData.append('file', file);
-    formData.append('no', nextNo);
-    formData.append('title', title);
-    formData.append('content', body);
-    formData.append('created_date', new Date().toISOString());
-    formData.append('originprice', originprice);
-    formData.append('sellprice', sellprice);
->>>>>>> cd566c22e873537f2a6c941c651a8a44e047490d
 
     try {
       const response = await axios.post(
@@ -73,12 +61,10 @@ function SellCreate() {
         }
       );
       const newPostId = response.data.no;
-<<<<<<< HEAD
+
       console.log("왜안돼", { newPostId }, response.data);
       alert("등록되었습니다.");
-=======
-      alert('등록되었습니다.');
->>>>>>> cd566c22e873537f2a6c941c651a8a44e047490d
+
       navigate(`/boardsell`, { state: { newPostId } });
     } catch (error) {
       console.error("Error saving post:", error);
@@ -92,14 +78,14 @@ function SellCreate() {
 
   const getBoard = () => {
     switch (location.pathname) {
-      case '/boardsell/process/new_Post':
-        return '팝니다';
-      case '/boardbuy/process/new_Post':
-        return '삽니다';
-      case '/boardads/process/new_Post':
-        return '홍보';
+      case "/boardsell/process/new_Post":
+        return "팝니다";
+      case "/boardbuy/process/new_Post":
+        return "삽니다";
+      case "/boardads/process/new_Post":
+        return "홍보";
       default:
-        return '';
+        return "";
     }
   };
 
@@ -187,7 +173,11 @@ function SellCreate() {
               <button className="backBtn" type="button" onClick={backToList}>
                 취소
               </button>
-              <input className="CreateBtn" type="submit" value="작성완료"></input>
+              <input
+                className="CreateBtn"
+                type="submit"
+                value="작성완료"
+              ></input>
             </div>
           </div>
         </form>
