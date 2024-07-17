@@ -155,6 +155,34 @@ router.get("/boardsell/image/:id", (req, res) => {
   });
 });
 
+// 이미지 파일 서빙
+router.get("/boardads/image/:id", (req, res) => {
+  const id = req.params.id;
+  pool.getConnection((err, conn) => {
+    if (err) {
+      console.error("MySQL 연결 오류:", err);
+      res.status(500).send("서버 오류");
+      return;
+    }
+
+    const query = `SELECT file_data FROM boardads WHERE no = ?`;
+    conn.query(query, [id], (err, result) => {
+      conn.release();
+      if (err) {
+        console.error("이미지 조회 오류:", err);
+        res.status(500).send("서버 오류");
+        return;
+      }
+      if (result.length === 0 || !result[0].file_data) {
+        res.status(404).send("이미지를 찾을 수 없습니다.");
+      } else {
+        res.writeHead(200, { "Content-Type": "image/jpeg" });
+        res.end(result[0].file_data);
+      }
+    });
+  });
+});
+
 // 게시글 삭제
 const deletePost = (tableName, postId, req, res) => {
   const userNickname = req.session.user.nickname;
