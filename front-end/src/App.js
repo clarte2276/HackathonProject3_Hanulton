@@ -58,7 +58,7 @@ function App() {
               path="/chat/chatroom/:sender/to/:receiver"
               element={<Chatroom />}
             />
-            <Route path="/GPT" element={<GPT />} />
+            <Route path="/chat/autofriend" element={<GPT />} />
           </Routes>
         </div>
         <div>
