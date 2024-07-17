@@ -39,6 +39,11 @@
 .myPageAll {
   display: flex;
   flex-direction: column;
+  justify-content: flex-start;
+  position: fixed;
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
 }
 
 .myPage {

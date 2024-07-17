@@ -5,7 +5,6 @@
   flex-direction: column;
   justify-content: flex-start;
   position: fixed;
-  align-items: center;
   height: 100%;
   width: 100%;
   overflow: hidden;
