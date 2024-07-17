@@ -93,7 +93,7 @@ function SellRead() {
 
           <div>
             <div className="ReadChat_layout">
-              <Link className="onebyoneChat" to={'/'}>
+              <Link className="onebyoneChat" to={'/chat/chatroom/:sender/to/:receiver'}>
                 1:1채팅
               </Link>
             </div>
