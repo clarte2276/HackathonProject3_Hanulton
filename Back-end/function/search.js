@@ -34,7 +34,7 @@ const executeQuery = (query, params, res, callback) => {
   
 // 게시판 검색 기능
 const searchBoard = (tableName, keyword, res) => {
-  const query = `SELECT no, title, nickname, content, DATE_FORMAT(created_date, '%Y년 %m월 %d일 %H시 %i분') AS created_date, state, originprice, sellprice FROM ${tableName} WHERE title LIKE ? OR content LIKE ? OR nickname LIKE ?`;
+  const query = `SELECT no, title, nickname, content, DATE_FORMAT(created_date, '%Y년 %m월 %d일 %H시 %i분') AS created_date, state FROM ${tableName} WHERE title LIKE ? OR content LIKE ? OR nickname LIKE ?`;
   const searchKeyword = `%${keyword}%`;
   executeQuery(query, [searchKeyword, searchKeyword, searchKeyword], res, (results) => {
     if (results.length === 0) {
@@ -47,7 +47,7 @@ const searchBoard = (tableName, keyword, res) => {
 
 // 게시판 목록 가져오기 기능
 const getBoardList = (tableName, res) => {
-  const query = `SELECT no, title, nickname, content, DATE_FORMAT(created_date, '%Y년 %m월 %d일 %H시 %i분') AS created_date, state, originprice, sellprice FROM ${tableName}`;
+  const query = `SELECT no, title, nickname, content, DATE_FORMAT(created_date, '%Y년 %m월 %d일 %H시 %i분') AS created_date, state FROM ${tableName}`;
   executeQuery(query, [], res, (results) => {
     if (results.length === 0) {
       res.status(404).json({ message: '게시물이 없습니다.' });

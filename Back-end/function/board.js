@@ -97,7 +97,7 @@ const insertBoardData = (
 };
 
 // 게시글 상세보기
-const getPostDetails = (tableName, commentTable, postId, req, res) => {
+const getPostDetails = (tableName, postId, req, res) => {
   pool.getConnection((err, conn) => {
     if (err) {
       console.error("MySQL 연결 오류:", err);
@@ -105,37 +105,22 @@ const getPostDetails = (tableName, commentTable, postId, req, res) => {
       return;
     }
 
-    const postQuery = `SELECT *, DATE_FORMAT(created_date, '%Y년 %m월 %d일 %H시 %i분') AS created_date FROM ${tableName} WHERE no = ? ORDER BY created_date DESC`;
-    const commentQuery = `SELECT comment_no, nickname, content, DATE_FORMAT(created_date, '%Y년 %m월 %d일 %H시 %i분') AS created_date FROM ${commentTable} WHERE board_no = ? ORDER BY created_date ASC`;
-
+    const postQuery = `SELECT *, DATE_FORMAT(created_date, '%Y년 %m월 %d일 %H시 %i분') AS created_date FROM ${tableName} WHERE no = ?`;
     conn.query(postQuery, [postId], (err, postResult) => {
+      conn.release();
       if (err) {
-        conn.release();
         console.error("게시글 조회 오류:", err);
         res.status(500).send("서버 오류");
         return;
       }
-
       if (postResult.length === 0) {
-        conn.release();
         res.status(404).send("게시물을 찾을 수 없습니다.");
-        return;
-      }
-
-      conn.query(commentQuery, [postId], (err, commentResults) => {
-        conn.release();
-        if (err) {
-          console.error("댓글 조회 오류:", err);
-          res.status(500).send("서버 오류");
-          return;
-        }
-
+      } else {
         res.json({
           post: postResult[0],
-          comments: commentResults,
           session: req.session,
         });
-      });
+      }
     });
   });
 };
@@ -206,7 +191,7 @@ router.get("/boardcookfriend/image/:id", (req, res) => {
       return;
     }
 
-    const query = `SELECT file_data FROM boardcookfriend WHERE no = ?`;
+    const query = `SELECT file_data FROM boardads WHERE no = ?`;
     conn.query(query, [id], (err, result) => {
       conn.release();
       if (err) {
@@ -345,7 +330,7 @@ const updatePostState = (tableName, postId, newState, req, res) => {
 };
 
 // 각각의 게시판 라우터 생성
-const createBoardRoutes = (boardName, tableName, commentTable) => {
+const createBoardRoutes = (boardName, tableName) => {
   // 게시판 데이터 가져오기
   router.get(`/${boardName}`, (req, res) => {
     getBoardData(tableName, res);
@@ -375,7 +360,7 @@ const createBoardRoutes = (boardName, tableName, commentTable) => {
 
   // 상세보기
   router.get(`/${boardName}/PostView/:no`, (req, res) => {
-    getPostDetails(tableName, commentTable, req.params.no, req, res);
+    getPostDetails(tableName, req.params.no, req, res);
   });
 
   // 게시글 삭제
@@ -420,8 +405,8 @@ const createBoardRoutes = (boardName, tableName, commentTable) => {
 };
 
 // 각각의 게시판 라우트 설정
-createBoardRoutes("boardcookfriend", "boardcookfriend", "comcookfriend");
-createBoardRoutes("boardsell", "boardsell", "comsell");
-createBoardRoutes("boardads", "boardads", "comads");
+createBoardRoutes("boardcookfriend", "boardcookfriend");
+createBoardRoutes("boardsell", "boardsell");
+createBoardRoutes("boardads", "boardads");
 
 module.exports = router;
