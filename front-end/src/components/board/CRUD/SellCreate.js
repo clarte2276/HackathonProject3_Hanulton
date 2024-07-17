@@ -199,86 +199,105 @@ function SellCreate() {
     navigate('/boardsell');
   };
 
+  const getBoard = () => {
+    switch (location.pathname) {
+      case '/boardsell/process/new_Post':
+        return '팝니다';
+      case '/boardbuy/process/new_Post':
+        return '삽니다';
+      case '/boardads/process/new_Post':
+        return '홍보';
+      default:
+        return '';
+    }
+  };
+
   return (
     <div className="Create_all">
       <div>
         <div>
           <BasicNavbar title="글쓰기" />
         </div>
+        <div className="boardName_layout">
+          <div className="boardTitle">게시판</div>
+          <div className="boardName">{getBoard()}</div>
+        </div>
         <form onSubmit={saveBoard}>
-          <div className="titleBody_layout">
-            <div>
+          <div className="BoardInput_all">
+            <div className="titleBody_layout">
               <p>
-                <span className="titleBody_name">제목</span>
-              </p>
-              <input
-                className="titleInput"
-                type="text"
-                name="title"
-                placeholder="제목을 입력하세요"
-                value={title}
-                onChange={onChange}
-              />
-            </div>
-            <div>
-              <div>
-                <p>
-                  <span className="titleBody_name">판매 가격</span>
+                <p className="titleBody_nameLayout">
+                  <span className="titleBody_name">제목</span>
                 </p>
                 <input
-                  className="sellpriceInput"
+                  className="titleInput"
                   type="text"
-                  name="sellprice"
-                  placeholder="판매 가격"
-                  value={sellprice}
+                  name="title"
+                  placeholder="제목을 입력하세요"
+                  value={title}
                   onChange={onChange}
                 />
-              </div>
-              <div>
-                <p>
-                  <span className="titleBody_name">정가</span>
+              </p>
+              <p className="sellOriginPrice">
+                <div>
+                  <p className="titleBody_nameLayout">
+                    <span className="titleBody_name">판매 가격</span>
+                  </p>
+                  <input
+                    className="sellpriceInput"
+                    type="text"
+                    name="sellprice"
+                    placeholder="판매 가격"
+                    value={sellprice}
+                    onChange={onChange}
+                  />
+                </div>
+                <div>
+                  <p className="titleBody_nameLayout">
+                    <span className="titleBody_name">정가</span>
+                  </p>
+                  <input
+                    className="originpriceInput"
+                    type="text"
+                    name="originprice"
+                    placeholder="정가"
+                    value={originprice}
+                    onChange={onChange}
+                  />
+                </div>
+              </p>
+            </div>
+            <br />
+            <div className="titleBody_layout">
+              <div className="Body_layout">
+                <p className="titleBody_nameLayout">
+                  <span className="titleBody_name">글내용</span>
                 </p>
-                <input
-                  className="originpriceInput"
-                  type="text"
-                  name="originprice"
-                  placeholder="정가"
-                  value={originprice}
+                <textarea
+                  className="BodyInput"
+                  name="body"
+                  placeholder="내용을 입력하세요"
+                  value={body}
                   onChange={onChange}
-                />
+                ></textarea>
               </div>
             </div>
-          </div>
-          <br />
-          <div className="titleBody_layout">
-            <div>
-              <p>
-                <span className="titleBody_name">글내용</span>
-              </p>
-              <textarea
-                className="BodyInput"
-                name="body"
-                placeholder="내용을 입력하세요"
-                value={body}
-                onChange={onChange}
-              ></textarea>
+            <br />
+            <div className="titleBody_layout">
+              <div>
+                <p className="titleBody_nameLayout">
+                  <span className="titleBody_name">사진 업로드</span>
+                </p>
+                <input className="imgUp" type="file" onChange={onFileChange} />
+              </div>
             </div>
-          </div>
-          <br />
-          <div className="titleBody_layout">
-            <div>
-              <p>
-                <span className="titleBody_name">이미지 업로드</span>
-              </p>
-              <input type="file" onChange={onFileChange} />
+            <br />
+            <div className="btn_layout">
+              <button className="backBtn" type="button" onClick={backToList}>
+                취소
+              </button>
+              <input className="CreateBtn" type="submit" value="작성완료"></input>
             </div>
-          </div>
-          <br />
-          <div className="btn_layout">
-            <button className="backBtn" type="button" onClick={backToList}>
-              취소
-            </button>
-            <input className="CreateBtn" type="submit" value="작성완료"></input>
           </div>
         </form>
       </div>
