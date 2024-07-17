@@ -22,8 +22,9 @@ router.post("/list", (req, res) => {
   }
 
   const currentUserNickname = req.session.user.nickname;
+  const currentUserId = req.session.user.id;
 
-  // 현재 사용자의 roomId를 가져오는 쿼리
+  // 현재 사용자의 Id를 가져오는 쿼리
   const getRoomIdQuery = "SELECT id FROM users WHERE nickname = ?";
 
   pool.query(getRoomIdQuery, [currentUserNickname], (error, results) => {
