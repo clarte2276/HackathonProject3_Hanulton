@@ -1,8 +1,8 @@
 import { React, useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import stock from '../images/stock.png';
-import deal from '../images/deal.png';
-import mypage from '../images/mypage.png';
+import Map from '../images/location_on.png';
+import Mypage from '../images/mypageuser.png';
+import Home from '../images/mypage.png';
 import './NavbarBottom.css';
 
 function NavbarBottom() {
@@ -39,21 +39,25 @@ function NavbarBottom() {
       <div className="navbarBottom_layout">
         <div className="navbarBottom_center">
           <br />
-          <img src={stock} alt="재고" width={30} />
-          <div>재고</div>
+          <Link className="navbarBottom_centerlayout" to={'/boardsell'}>
+            <img src={Home} alt="home" width={30} />
+            <div className="Link_text">Home</div>
+          </Link>
           <br />
         </div>
         <div className="navbarBottom_center">
           <br />
-          <img src={deal} alt="거래" width={30} />
-          <div>거래</div>
+          <Link className="navbarBottom_centerlayout" href="/mypage" onClick={(e) => checkLogin(e, '/mypage')}>
+            <img src={Mypage} alt="내페이지" width={30} />
+            <div className="Link_text">Mypage</div>
+          </Link>
           <br />
         </div>
         <div className="navbarBottom_center">
           <br />
-          <Link href="/mypage" onClick={(e) => checkLogin(e, '/mypage')}>
-            <img src={mypage} alt="내페이지" width={30} />
-            <div>내페이지</div>
+          <Link className="navbarBottom_centerlayout" to={'/map'}>
+            <img src={Map} alt="거래" width={30} />
+            <div className="Link_text">Map</div>
           </Link>
           <br />
         </div>
