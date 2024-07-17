@@ -43,12 +43,16 @@ const executeQuery = (query, params, res, callback) => {
 
 // 게시판 데이터 가져오기
 const getBoardData = (tableName, res) => {
-  const query = `SELECT no, title, nickname, content, DATE_FORMAT(created_date, '%Y년 %m월 %d일 %H시 %i분') AS created_date, state, originprice, sellprice, file_path FROM ${tableName}`;
+  const query = `SELECT no, title, nickname, content, DATE_FORMAT(created_date, '%Y년 %m월 %d일 %H시 %i분') AS created_date, state, originprice, sellprice, file_data FROM ${tableName}`;
   executeQuery(query, [], res, (results) => {
     if (results.length === 0) {
       res.status(404).json({ message: "해당 게시판에 게시물이 없습니다." });
     } else {
-      res.json(results);
+      const posts = results.map(post => ({
+        ...post,
+        imageUrl: `/boardsell/image/${post.no}`
+      }));
+      res.json(posts);
     }
   });
 };
@@ -125,34 +129,6 @@ const getPostDetails = (tableName, postId, req, res) => {
 
 // 이미지 파일 서빙
 router.get("/boardsell/image/:id", (req, res) => {
-  const id = req.params.id;
-  pool.getConnection((err, conn) => {
-    if (err) {
-      console.error("MySQL 연결 오류:", err);
-      res.status(500).send("서버 오류");
-      return;
-    }
-
-    const query = `SELECT file_data FROM boardsell WHERE no = ?`;
-    conn.query(query, [id], (err, result) => {
-      conn.release();
-      if (err) {
-        console.error("이미지 조회 오류:", err);
-        res.status(500).send("서버 오류");
-        return;
-      }
-      if (result.length === 0 || !result[0].file_data) {
-        res.status(404).send("이미지를 찾을 수 없습니다.");
-      } else {
-        res.writeHead(200, { "Content-Type": "image/jpeg" });
-        res.end(result[0].file_data);
-      }
-    });
-  });
-});
-
-// 이미지 파일 서빙
-router.get("/boardcookfriend/image/:id", (req, res) => {
   const id = req.params.id;
   pool.getConnection((err, conn) => {
     if (err) {
