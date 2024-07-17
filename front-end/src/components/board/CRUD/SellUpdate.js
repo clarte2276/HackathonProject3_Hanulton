@@ -1,7 +1,7 @@
 // export default SellUpdate;
 
 import React, { useState, useEffect } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams, useNavigate, useLocation } from 'react-router-dom';
 import BasicNavbar from '../../Navbar/BasicNavbar';
 import './CRUD.css';
 import axios from 'axios';
@@ -9,6 +9,7 @@ import axios from 'axios';
 function SellUpdate() {
   const { no } = useParams();
   const navigate = useNavigate();
+  const location = useLocation();
   const [post, setPost] = useState({
     title: '',
     body: '',
@@ -22,9 +23,9 @@ function SellUpdate() {
     axios
       .get(`/boardsell/Postview/${no}/process/update`)
       .then((response) => {
-        const { title, content, place, file_path } = response.data;
+        const { title, content, place, file_data } = response.data;
 
-        setPost({ title, body, place: content });
+        setPost({ title, body: content, place });
         setLoading(false);
       })
       .catch((error) => {
@@ -94,37 +95,95 @@ function SellUpdate() {
     return <div>{error}</div>;
   }
 
+  const getBoard = () => {
+    switch (location.pathname) {
+      case '/boardsell/process/new_Post':
+        return '팝니다';
+      case '/boardbuy/process/new_Post':
+        return '삽니다';
+      case '/boardads/process/new_Post':
+        return '홍보';
+      default:
+        return '';
+    }
+  };
+
   return (
     <>
-      <div>
-        <BasicNavbar title="글쓰기" />
-      </div>
-      <form onSubmit={updatePost}>
-        <div>
-          <span>제목</span>
-          <input type="text" name="title" placeholder="제목" value={post.title} onChange={onChange} />
+      <BasicNavbar title="글수정" />
+      <div className="Create_all">
+        <div className="boardName_layout">
+          <div className="boardTitle">게시판</div>
+          <div className="boardName">{getBoard()}</div>
         </div>
-        <br />
-        <div>
-          <span>내용</span>
-          <textarea name="body" placeholder="내용" value={post.body} onChange={onChange}></textarea>
-        </div>
-        <br />
-        <div>
-          <span>요리 희망 장소</span>
-          <input type="text" name="place" placeholder="장소" value={post.place} onChange={onChange} />
-        </div>
+        <form onSubmit={updatePost}>
+          <div className="BoardInput_all">
+            <div className="titleBody_layout">
+              <p>
+                <p className="titleBody_nameLayout">
+                  <span className="titleBody_name">제목</span>
+                </p>
+                <input
+                  className="titleInput"
+                  type="text"
+                  name="title"
+                  placeholder="제목"
+                  value={post.title}
+                  onChange={onChange}
+                />
+              </p>
+            </div>
+            <br />
+            <div className="titleBody_layout">
+              <div className="Body_layout">
+                <p className="titleBody_nameLayout">
+                  <span className="titleBody_name">글내용</span>
+                </p>
+                <textarea
+                  className="BodyInput"
+                  name="body"
+                  placeholder="내용"
+                  value={post.body}
+                  onChange={onChange}
+                ></textarea>
+              </div>
+            </div>
+            <br />
+            <div className="titleBody_layout">
+              <div>
+                <p className="titleBody_nameLayout">
+                  <span className="titleBody_name">사진 업로드</span>
+                </p>
+                <input type="file" onChange={onFileChange} />
+              </div>
+            </div>
+            <br />
 
-        <div>
-          <span>이미지 업로드</span>
-          <input type="file" onChange={onFileChange} />
-        </div>
-        <br />
-        <button type="button" onClick={backToList}>
-          취소
-        </button>
-        <input type="submit" value="수정하기"></input>
-      </form>
+            <div className="titleBody_layout">
+              <p>
+                <p className="titleBody_nameLayout">
+                  <span className="titleBody_name">요리 희망 장소</span>
+                </p>
+                <input
+                  className="titleInput"
+                  type="text"
+                  name="place"
+                  placeholder="장소"
+                  value={post.place}
+                  onChange={onChange}
+                />
+              </p>
+            </div>
+            <br />
+            <div className="btn_layout">
+              <button className="backBtn" type="button" onClick={backToList}>
+                취소
+              </button>
+              <input className="CreateBtn" type="submit" value="수정하기"></input>
+            </div>
+          </div>
+        </form>
+      </div>
     </>
   );
 }
