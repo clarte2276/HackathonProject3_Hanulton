@@ -33,16 +33,16 @@ const executeQuery = (query, params, res, callback) => {
 };
 
 // 댓글 가져오기
-const getComments = (tableName, board_no, res) => {
-  const query = `SELECT comment_no, nickname, content, DATE_FORMAT(created_date, '%Y년 %m월 %d일 %H시 %i분') AS created_date FROM ${tableName} WHERE board_no = ? ORDER BY created_date DESC`;
+const getComments = (commentTable, board_no, res) => {
+  const query = `SELECT comment_no, nickname, content, DATE_FORMAT(created_date, '%Y년 %m월 %d일 %H시 %i분') AS created_date FROM ${commentTable} WHERE board_no = ? ORDER BY created_date ASC`;
   executeQuery(query, [board_no], res, (results) => {
     res.json(results);
   });
 };
 
 // 댓글 추가
-const insertComment = (tableName, board_no, nickname, content, createdDate, res) => {
-  const query = `INSERT INTO ${tableName} (board_no, nickname, content, created_date) VALUES (?, ?, ?, ?)`;
+const insertComment = (commentTable, board_no, nickname, content, createdDate, res) => {
+  const query = `INSERT INTO ${commentTable} (board_no, nickname, content, created_date) VALUES (?, ?, ?, ?)`;
   const params = [board_no, nickname, content, createdDate];
   executeQuery(query, params, res, (result) => {
     res.json({ comment_no: result.insertId });
@@ -50,49 +50,56 @@ const insertComment = (tableName, board_no, nickname, content, createdDate, res)
 };
 
 // 댓글 수정
-const updateComment = (comment_no, content, updatedDate, res) => {
-  const query = `UPDATE comments SET content = ?, created_date = ? WHERE comment_no = ?`;
-  const params = [content, updatedDate, comment_no];
+const updateComment = (commentTable, comment_no, content, updatedDate, req, res) => {
+  const query = `UPDATE ${commentTable} SET content = ?, created_date = ? WHERE comment_no = ? AND nickname = ?`;
+  const params = [content, updatedDate, comment_no, req.session.user.nickname];
   executeQuery(query, params, res, () => {
     res.sendStatus(204);
   });
 };
 
 // 댓글 삭제
-const deleteComment = (comment_no, res) => {
-  const query = `DELETE FROM comments WHERE comment_no = ?`;
-  executeQuery(query, [comment_no], res, () => {
+const deleteComment = (commentTable, comment_no, req, res) => {
+  const query = `DELETE FROM ${commentTable} WHERE comment_no = ? AND nickname = ?`;
+  const params = [comment_no, req.session.user.nickname];
+  executeQuery(query, params, res, () => {
     res.sendStatus(204);
   });
 };
 
-// 댓글 작성 게시판 타입
-const boards = ["boardsell", "boardcookfriend", "boardads"];
+// 댓글 작성 게시판 타입과 댓글 테이블 매핑
+const boardToCommentTableMap = {
+  boardsell: "comsell",
+  boardads: "comads",
+  boardcookfriend: "comcookfriend",
+};
 
-boards.forEach((board) => {
+Object.keys(boardToCommentTableMap).forEach((boardName) => {
+  const commentTable = boardToCommentTableMap[boardName];
+
   // 댓글 데이터 가져오기
-  router.get(`/${board}/comments/:boardNo`, (req, res) => {
-    getComments(board, req.params.boardNo, res);
+  router.get(`/${boardName}/comments/:boardNo`, (req, res) => {
+    getComments(commentTable, req.params.boardNo, res);
   });
 
   // 댓글 등록
-  router.post(`/${board}/writecomments/:boardNo`, (req, res) => {
+  router.post(`/${boardName}/writecomments/:boardNo`, (req, res) => {
     const { content } = req.body;
     const nickname = req.session.user.nickname;
     const createdDate = moment().format("YYYY-MM-DD HH:mm:ss");
-    insertComment(board, req.params.boardNo, nickname, content, createdDate, res);
+    insertComment(commentTable, req.params.boardNo, nickname, content, createdDate, res);
   });
 
   // 댓글 수정
-  router.put(`/${board}/process/updatecomments/:commentNo`, (req, res) => {
+  router.put(`/${boardName}/process/updatecomments/:commentNo`, (req, res) => {
     const { content } = req.body;
     const updatedDate = moment().format("YYYY-MM-DD HH:mm:ss");
-    updateComment(req.params.commentNo, content, updatedDate, res);
+    updateComment(commentTable, req.params.commentNo, content, updatedDate, req, res);
   });
 
   // 댓글 삭제
-  router.delete(`/${board}/process/deletecomments/:commentNo`, (req, res) => {
-    deleteComment(req.params.commentNo, res);
+  router.delete(`/${boardName}/process/deletecomments/:commentNo`, (req, res) => {
+    deleteComment(commentTable, req.params.commentNo, req, res);
   });
 });
 
