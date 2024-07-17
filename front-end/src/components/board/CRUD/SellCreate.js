@@ -137,7 +137,7 @@ function SellCreate() {
                 <input
                   className="titleInput"
                   type="text"
-                  name="요리 희망 장소"
+                  name="place"
                   placeholder="장소를 입력하세요"
                   value={place}
                   onChange={onChange}

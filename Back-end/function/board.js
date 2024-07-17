@@ -43,7 +43,7 @@ const executeQuery = (query, params, res, callback) => {
 
 // 게시판 데이터 가져오기
 const getBoardData = (tableName, res) => {
-  const query = `SELECT no, title, nickname, content, DATE_FORMAT(created_date, '%Y년 %m월 %d일 %H시 %i분') AS created_date, state, originprice, sellprice, file_data, place FROM ${tableName}`;
+  const query = `SELECT no, title, nickname, content, DATE_FORMAT(created_date, '%Y년 %m월 %d일 %H시 %i분') AS created_date, state, file_data, place FROM ${tableName}`;
   executeQuery(query, [], res, (results) => {
     if (results.length === 0) {
       res.status(404).json({ message: "해당 게시판에 게시물이 없습니다." });
@@ -64,8 +64,6 @@ const insertBoardData = (
   nickname,
   content,
   createdDate,
-  originprice,
-  sellprice,
   place,
   fileBuffer,
   res
@@ -76,14 +74,12 @@ const insertBoardData = (
       return res.status(500).send("DB 서버 연결 실패");
     }
 
-    const query = `INSERT INTO ${tableName} (title, nickname, content, created_date, originprice, sellprice, place, file_data) VALUES (?, ?, ?, ?, ?, ?, ?)`;
+    const query = `INSERT INTO ${tableName} (title, nickname, content, created_date, place, file_data) VALUES (?, ?, ?, ?, ?, ?)`;
     const params = [
       title,
       nickname,
       content,
       createdDate,
-      originprice,
-      sellprice,
       place,
       fileBuffer,
     ];
@@ -288,21 +284,17 @@ const updatePost = (
   title,
   content,
   createdDate,
-  originprice,
-  sellprice,
   place,
   fileBuffer,
   req,
   res
 ) => {
   pool.query(
-    `UPDATE ${tableName} SET title = ?, content = ?, created_date = ?, originprice = ?, sellprice = ?, place = ?, file_data = ? WHERE no = ? AND nickname = ?`,
+    `UPDATE ${tableName} SET title = ?, content = ?, created_date = ?, place = ?, file_data = ? WHERE no = ? AND nickname = ?`,
     [
       title,
       content,
       createdDate,
-      originprice,
-      sellprice,
       place,
       fileBuffer,
       postId,
@@ -349,7 +341,7 @@ const createBoardRoutes = (boardName, tableName) => {
     `/${boardName}/process/new_Post`,
     upload.single("file"),
     (req, res) => {
-      const { title, content, originprice, sellprice, place } = req.body;
+      const { title, content, place } = req.body;
       const nickname = req.session.user.nickname;
       const createdDate = moment().format("YYYY-MM-DD HH:mm:ss");
       const fileBuffer = req.file ? req.file.buffer : null;
@@ -359,8 +351,6 @@ const createBoardRoutes = (boardName, tableName) => {
         nickname,
         content,
         createdDate,
-        originprice,
-        sellprice,
         place,
         fileBuffer,
         res
@@ -388,7 +378,7 @@ const createBoardRoutes = (boardName, tableName) => {
     `/${boardName}/PostView/:no/process/update`,
     upload.single("file"),
     (req, res) => {
-      const { title, content, created_date, originprice, sellprice, place } = req.body;
+      const { title, content, created_date, place } = req.body;
       const createdDate = moment(created_date || new Date()).format(
         "YYYY-MM-DD HH:mm:ss"
       );
@@ -399,8 +389,6 @@ const createBoardRoutes = (boardName, tableName) => {
         title,
         content,
         createdDate,
-        originprice,
-        sellprice,
         place,
         fileBuffer,
         req,
