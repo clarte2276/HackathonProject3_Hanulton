@@ -12,7 +12,7 @@ import NavbarTop from "../Navbar/NavbarTop";
 import search from "../images/search.png";
 import "./Board.css";
 
-const BoardFriendcook = () => {
+const Boardcookfriend = () => {
   const [dataList, setDataList] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [searchKeyword, setSearchKeyword] = useState("");
@@ -124,4 +124,4 @@ const BoardFriendcook = () => {
   );
 };
 
-export default BoardFriendcook;
+export default Boardcookfriend;

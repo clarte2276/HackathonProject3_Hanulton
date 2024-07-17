@@ -4,7 +4,7 @@ import "./App.css";
 import Home from "./components/home/Home.js";
 import NavbarBottom from "./components/Navbar/NavbarBottom.js";
 import BoardSell from "./components/board/BoardSell.js";
-import BoardFriendcook from "./components/board/BoardFriendcook.js";
+import Boardcookfriend from "./components/board/Boardcookfriend.js";
 import SellCreate from "./components/board/CRUD/SellCreate.js";
 import SellRead from "./components/board/CRUD/SellRead.js";
 import Cook_friendCreate from "./components/board/CRUD/Cook_friendCreate.js";
@@ -36,7 +36,7 @@ function App() {
               path="/boardsell/Postview/:no/process/update"
               element={<SellUpdate />}
             />
-            <Route path="/boardcookfriend" element={<BoardFriendcook />} />
+            <Route path="/boardcookfriend" element={<Boardcookfriend />} />
             <Route
               path="/boardcookfriend/process/new_Post"
               element={<Cook_friendCreate />}
