@@ -1,12 +1,10 @@
-// export default SellUpdate;
-
 import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import BasicNavbar from "../../Navbar/BasicNavbar";
 import "./CRUD.css";
 import axios from "axios";
 
-function SellUpdate() {
+function Cook_friendUpdate() {
   const { no } = useParams();
   const navigate = useNavigate();
   const [post, setPost] = useState({
@@ -15,24 +13,26 @@ function SellUpdate() {
     originprice: "",
     body: "",
   });
+  const [file, setFile] = useState(null); // 파일 상태 추가
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [file, setFile] = useState(null);
+  const [canEdit, setCanEdit] = useState(false);
 
   useEffect(() => {
     axios
-      .get(`/boardsell/Postview/${no}/process/update`)
+      .get(`/boardcookfriend/Postview/${no}/process/update`)
       .then((response) => {
         const { title, sellprice, originprice, content, file_path } =
           response.data;
-
         setPost({ title, sellprice, originprice, body: content });
+        setFile(file_path); // 파일 경로 설정
         setLoading(false);
+        setCanEdit(true);
       })
       .catch((error) => {
         if (error.response && error.response.status === 403) {
           alert("수정 권한이 없습니다.");
-          navigate(`/boardsell/PostView/${no}`);
+          navigate(`/boardcookfriend/PostView/${no}`);
         } else {
           console.error("게시글을 불러오는 중 오류가 발생했습니다!", error);
           setError("게시글을 불러오는 중 오류가 발생했습니다!");
@@ -43,7 +43,6 @@ function SellUpdate() {
 
   const onChange = (event) => {
     const { value, name } = event.target;
-    console.log(`name: ${name}, value: ${value}`);
     setPost({
       ...post,
       [name]: value,
@@ -51,33 +50,36 @@ function SellUpdate() {
   };
 
   const onFileChange = (event) => {
-    setFile(event.target.files[0]);
+    setFile(event.target.files[0]); // 파일 상태 업데이트
   };
 
   const updatePost = async (event) => {
     event.preventDefault();
 
     const formData = new FormData();
-
-    formData.append("file", file);
+    formData.append("file", file); // 파일 추가
     formData.append("title", post.title);
     formData.append("content", post.body);
     formData.append("sellprice", post.sellprice);
     formData.append("originprice", post.originprice);
 
     try {
-      await axios.post(`/boardsell/Postview/${no}/process/update`, formData, {
-        withCredentials: true,
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      });
+      await axios.post(
+        `/boardcookfriend/Postview/${no}/process/update`,
+        formData,
+        {
+          withCredentials: true,
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
       alert("수정되었습니다.");
-      navigate(`/boardsell/PostView/${no}`);
+      navigate(`/boardcookfriend/PostView/${no}`);
     } catch (error) {
       if (error.response && error.response.status === 403) {
         alert("수정 권한이 없습니다.");
-        navigate(`/boardsell/PostView/${no}`);
+        navigate(`/boardcookfriend/PostView/${no}`);
       } else {
         console.error("게시글을 수정하는 중 오류가 발생했습니다:", error);
         alert("게시글을 수정하는 중 오류가 발생했습니다:");
@@ -86,7 +88,7 @@ function SellUpdate() {
   };
 
   const backToList = () => {
-    navigate(`/boardsell/PostView/${no}`);
+    navigate(`/boardcookfriend/PostView/${no}`);
   };
 
   if (loading) {
@@ -95,6 +97,9 @@ function SellUpdate() {
 
   if (error) {
     return <div>{error}</div>;
+  }
+  if (!canEdit) {
+    return <div>수정 권한이 없습니다.</div>; // 수정 권한이 없을 때 보여줄 내용
   }
 
   return (
@@ -143,7 +148,6 @@ function SellUpdate() {
             onChange={onChange}
           ></textarea>
         </div>
-        <br />
         <div>
           <span>이미지 업로드</span>
           <input type="file" onChange={onFileChange} />
@@ -158,4 +162,4 @@ function SellUpdate() {
   );
 }
 
-export default SellUpdate;
+export default Cook_friendUpdate;
