@@ -96,8 +96,8 @@ function SellUpdate() {
   }
 
   const getBoard = () => {
-    if (location.pathname === '/') {
-      return 'Home';
+    if (location.pathname === '/boardsell') {
+      return '우리요리';
     } else if (location.pathname.startsWith('/boardsell')) {
       return '우리요리';
     } else if (location.pathname.startsWith('/boardcookfriend')) {

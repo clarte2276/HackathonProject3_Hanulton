@@ -22,6 +22,7 @@
 .navbarBottom_centerlayout {
   display: grid;
   justify-items: center;
+  text-decoration: none;
 }
 
 .Link_text {
