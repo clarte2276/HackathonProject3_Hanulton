@@ -16,34 +16,34 @@ const pool = mysql.createPool({
 });
 
 // 채팅방 메시지 조회 (GET)
-router.get("/chatroom/:sender/to/:receiver", (req, res) => {
+router.get("/chatroom/:sender/to/:receiver/messages", (req, res) => {
   const { sender, receiver } = req.params;
-  const session_id = req.session.user.id;
+  const session_id = req.session.user ? req.session.user.id : null; // 세션이 없는 경우 대비
 
   if (session_id != sender) {
     return res.status(403).send("Forbidden");
   }
 
   pool.query(
-    "SELECT * FROM messages WHERE (sender_id = ? AND receiver_id = ?)",
+    "SELECT sender_id, receiver_id, content FROM messages WHERE (sender_id = ? AND receiver_id = ?)",
     [sender, receiver],
     (error, results) => {
       if (error) {
         console.error("Error fetching messages:", error);
         return res.status(500).send("서버 오류");
       }
+      console.log("Fetched messages from DB:", results); // 쿼리 결과 로그 추가
       res.json(results);
     }
   );
 });
-
 // 새로운 메시지 전송 (POST)
-router.post("/chatroom/:sender/to/:receiver", (req, res) => {
+router.post("/chatroom/:sender/to/:receiver/messages", (req, res) => {
   const { sender, receiver } = req.params;
-  const { receiver_id, content } = req.body;
-  const session_id = req.session.user.id;
+  const { content } = req.body;
+  const session_id = req.session.user ? req.session.user.id : null; // 세션이 없는 경우 대비
 
-  if (session_id != sender || receiver_id != receiver) {
+  if (session_id != sender) {
     return res.status(403).send("Forbidden");
   }
 

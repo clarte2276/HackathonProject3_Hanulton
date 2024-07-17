@@ -47,8 +47,8 @@ app.use(
 // 정적 파일 제공
 app.use(express.static(path.join(__dirname, "../Front-end/build")));
 app.use(express.static(path.join(__dirname, "public")));
-//이미지 업로드 폴더
-app.use("/uploads", express.static(path.join(__dirname, "uploads")));
+// //이미지 업로드 폴더
+// app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
 //js파일 연동
 const mypageRoutes = require("./function/mypage");
@@ -58,6 +58,8 @@ const chatsRoutes = require("./function/chat_list");
 const searchRoutes = require("./function/search");
 const loginRoutes = require("./function/login");
 const gptRoutes = require("./function/gpt_test");
+const chattingRoutes = require("./function/chatting");
+const commentsRoutes = require("./function/comments");
 
 app.use("/", mypageRoutes);
 app.use("/", loginRoutes);
@@ -65,6 +67,7 @@ app.use("/", use_cookieRoutes);
 app.use("/", boardRoutes);
 app.use("/", chatsRoutes);
 app.use("/", searchRoutes);
+app.use("/", chattingRoutes);
 app.use("/", gptRoutes); // 여기에 주의
 
 //모든 요청은 build/index.html로
