@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import BasicNavbar from '../../Navbar/BasicNavbar';
 import './CRUD.css';
@@ -7,7 +7,7 @@ import axios from 'axios';
 function SellCreate() {
   const navigate = useNavigate();
   const location = useLocation();
-  const { nextNo } = location.state || {};
+  const { nextNo, gptResponse } = location.state || {};
 
   const [board, setBoard] = useState({
     title: '',
@@ -49,7 +49,10 @@ function SellCreate() {
         },
       });
       const newPostId = response.data.no;
+
+      console.log('왜안돼', { newPostId }, response.data);
       alert('등록되었습니다.');
+
       navigate(`/boardsell`, { state: { newPostId } });
     } catch (error) {
       console.error('Error saving post:', error);

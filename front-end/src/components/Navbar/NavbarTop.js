@@ -46,8 +46,8 @@ function NavbarTop() {
         )}
         {location.pathname !== '/boardbuy' && (
           <div>
-            <Link className="TapTap" to="/boardbuy">
-              삽니다
+            <Link className="TapTap" to="/boardcookfriend">
+              같이 요리해요
             </Link>
           </div>
         )}

@@ -51,8 +51,10 @@ function NavbarBottom() {
         </div>
         <div className="navbarBottom_center">
           <br />
-          <img src={mypage} alt="내페이지" width={30} />
-          <div>내페이지</div>
+          <Link href="/mypage" onClick={(e) => checkLogin(e, '/mypage')}>
+            <img src={mypage} alt="내페이지" width={30} />
+            <div>내페이지</div>
+          </Link>
           <br />
         </div>
       </div>

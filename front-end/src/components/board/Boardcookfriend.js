@@ -1,33 +1,36 @@
-import React, { useState, useEffect } from 'react';
-import { Link, useLocation } from 'react-router-dom';
-import axios from 'axios';
+import React, { useState, useEffect } from "react";
+import { Link, useLocation } from "react-router-dom";
+import axios from "axios";
 
-import ListBoard from './element/ListBoard';
-import ColumnListBoard from './element/ColumnListBoard';
-import RowListBoard from './element/RowListBoard';
-import CreateButtonBoard from './element/CreateButtonBoard';
-import PaginationCustom from './element/PaginationCustom';
-import NavbarTop from '../Navbar/NavbarTop';
-import search from '../images/search.png';
-import './Board.css';
+// import TitleBodyBoard from './element/TitleBodyBoard';
+import ListBoard from "./element/ListBoard";
+import ColumnListBoard from "./element/ColumnListBoard";
+import RowListBoard from "./element/RowListBoard";
+import CreateButtonBoard from "./element/CreateButtonBoard";
+import PaginationCustom from "./element/PaginationCustom";
+import NavbarTop from "../Navbar/NavbarTop";
+import search from "../images/search.png";
+import "./Board.css";
 
-const BoardSell = () => {
+const Boardcookfriend = () => {
   const [dataList, setDataList] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
-  const [searchKeyword, setSearchKeyword] = useState('');
+  const [searchKeyword, setSearchKeyword] = useState("");
   const postsPerPage = 10;
   const location = useLocation();
 
-  const fetchData = async (keyword = '') => {
+  const fetchData = async (keyword = "") => {
     try {
       // 백엔드에서 게시글 목록을 가져옴
-      const endpoint = keyword ? `/boardsell/search?keyword=${encodeURIComponent(keyword)}` : '/boardsell';
+      const endpoint = keyword
+        ? `/boardcookfriend/search?keyword=${encodeURIComponent(keyword)}`
+        : "/boardcookfriend";
 
       const response = await axios.get(endpoint);
-      console.log('응답 데이터:', response.data); // 응답 데이터 출력
+      console.log("응답 데이터:", response.data); // 응답 데이터 출력
       setDataList(Array.isArray(response.data) ? response.data : []);
     } catch (error) {
-      console.error('There was an error fetching the posts!', error);
+      console.error("There was an error fetching the posts!", error);
     }
   };
 
@@ -37,13 +40,15 @@ const BoardSell = () => {
 
   useEffect(() => {
     if (location.state && location.state.newPost) {
-      console.log('새 게시글 추가:', location.state.newPost);
+      console.log("새 게시글 추가:", location.state.newPost);
       setDataList((prevDataList) => [location.state.newPost, ...prevDataList]);
     }
   }, [location.state]);
 
   const getNextNo = () => {
-    return dataList.length > 0 ? Math.max(...dataList.map((post) => post.no)) + 1 : 1;
+    return dataList.length > 0
+      ? Math.max(...dataList.map((post) => post.no)) + 1
+      : 1;
   };
 
   const indexOfLastPost = currentPage * postsPerPage;
@@ -60,7 +65,7 @@ const BoardSell = () => {
   };
 
   const formatPrice = (price) => {
-    return new Intl.NumberFormat('ko-KR').format(price) + '원';
+    return new Intl.NumberFormat("ko-KR").format(price) + "원";
   };
 
   return (
@@ -79,24 +84,23 @@ const BoardSell = () => {
             <img src={search} alt="검색" width={20} />
           </button>
         </form>
-        <ListBoard headersName={['', '']}>
+        <ListBoard headersName={["", ""]}>
           {currentPosts.length > 0 ? (
             currentPosts.map((item, index) => (
               <RowListBoard key={index}>
-                <Link to={`/boardsell/PostView/${item.no}`} style={{ textDecoration: 'none' }}>
+                <Link
+                  to={`/boardcookfriend/PostView/${item.no}`}
+                  style={{ textDecoration: "none" }}
+                >
                   <ColumnListBoard>
-                    {item.imageUrl && (
-                      <img
-                        src={item.imageUrl}
-                        alt="게시글 이미지"
-                        style={{ maxWidth: '100px', maxHeight: '100px' }}
-                      />
-                    )}
+                    <div className="maybeimg"></div>
                   </ColumnListBoard>
                   <ColumnListBoard>
                     <div className="titlePrice">
                       <div className="List_title">{item.title}</div>
-                      <div className="List_price">{formatPrice(item.sellprice)}</div>
+                      <div className="List_price">
+                        {formatPrice(item.sellprice)}
+                      </div>
                       {/* <div className="List_date">{item.created_date}</div> */}
                     </div>
                   </ColumnListBoard>
@@ -107,7 +111,7 @@ const BoardSell = () => {
             <div>게시글이 없습니다.</div>
           )}
         </ListBoard>
-        <CreateButtonBoard emotion="boardsell" nextNo={getNextNo()} />
+        <CreateButtonBoard emotion="boardcookfriend" nextNo={getNextNo()} />
         <div className="PaginationCustom">
           <PaginationCustom
             currentPage={currentPage}
@@ -120,4 +124,4 @@ const BoardSell = () => {
   );
 };
 
-export default BoardSell;
+export default Boardcookfriend;
