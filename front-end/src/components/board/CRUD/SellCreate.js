@@ -49,8 +49,6 @@ function SellCreate() {
         },
       });
       const newPostId = response.data.no;
-
-      console.log('왜안돼', { newPostId }, response.data);
       alert('등록되었습니다.');
 
       navigate(`/boardsell`, { state: { newPostId } });
@@ -67,11 +65,9 @@ function SellCreate() {
   const getBoard = () => {
     switch (location.pathname) {
       case '/boardsell/process/new_Post':
-        return '팝니다';
-      case '/boardbuy/process/new_Post':
-        return '삽니다';
-      case '/boardads/process/new_Post':
-        return '홍보';
+        return '우리요리';
+      case '/boardcookfriend/process/new_Post':
+        return '레시피공유';
       default:
         return '';
     }

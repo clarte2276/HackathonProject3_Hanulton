@@ -18,3 +18,13 @@
   font-style: normal;
   font-size: 14px;
 }
+
+.navbarBottom_centerlayout {
+  display: grid;
+  justify-items: center;
+}
+
+.Link_text {
+  text-decoration: none;
+  color: black;
+}
