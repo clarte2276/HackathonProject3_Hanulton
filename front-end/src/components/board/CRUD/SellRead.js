@@ -68,8 +68,10 @@ function SellRead() {
           <div className="imageContainer">
             <img src={`/boardsell/image/${no}`} alt="Uploaded" style={{ maxWidth: '80%', height: 'auto' }} />
           </div>
-          <p className="sellRead_nickname">닉네임 : {nickname}</p>
-          <p className="sellRead_location">{place}</p>
+          <div className="nicknamePlace_layout">
+            <p className="sellRead_nickname">닉네임 : {nickname}</p>
+            <p className="sellRead_location">{place}</p>
+          </div>
           <div className="sellRead_underline"></div>
           <div className="Readboard_info">
             <div className="ReadTitleDate">

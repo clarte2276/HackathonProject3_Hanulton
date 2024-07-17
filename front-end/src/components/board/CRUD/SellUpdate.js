@@ -96,15 +96,12 @@ function SellUpdate() {
   }
 
   const getBoard = () => {
-    switch (location.pathname) {
-      case '/boardsell/process/new_Post':
-        return '팝니다';
-      case '/boardbuy/process/new_Post':
-        return '삽니다';
-      case '/boardads/process/new_Post':
-        return '홍보';
-      default:
-        return '';
+    if (location.pathname === '/') {
+      return 'Home';
+    } else if (location.pathname.startsWith('/boardbuy')) {
+      return '우리요리';
+    } else if (location.pathname.startsWith('/boardsell')) {
+      return '레시피공유';
     }
   };
 

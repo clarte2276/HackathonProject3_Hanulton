@@ -59,10 +59,6 @@ const BoardSell = () => {
     fetchData(searchKeyword);
   };
 
-  const formatPrice = (price) => {
-    return new Intl.NumberFormat('ko-KR').format(price) + '원';
-  };
-
   return (
     <>
       <NavbarTop />
@@ -86,17 +82,13 @@ const BoardSell = () => {
                 <Link to={`/boardsell/PostView/${item.no}`} style={{ textDecoration: 'none' }}>
                   <ColumnListBoard>
                     {item.imageUrl && (
-                      <img
-                        src={item.imageUrl}
-                        alt="게시글 이미지"
-                        style={{ maxWidth: '100px', maxHeight: '100px' }}
-                      />
+                      <img src={item.imageUrl} alt="게시글 이미지" style={{ maxWidth: '100px', maxHeight: '100px' }} />
                     )}
                   </ColumnListBoard>
                   <ColumnListBoard>
                     <div className="titlePrice">
                       <div className="List_title">{item.title}</div>
-                      <div className="List_price">{formatPrice(item.sellprice)}</div>
+                      <div className="List_price">{item.nickname}</div>
                       {/* <div className="List_date">{item.created_date}</div> */}
                     </div>
                   </ColumnListBoard>
