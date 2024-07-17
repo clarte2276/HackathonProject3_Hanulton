@@ -4,7 +4,7 @@ import BasicNavbar from "../../Navbar/BasicNavbar";
 import "./CRUD.css";
 import axios from "axios";
 
-function SellUpdate() {
+function Cook_friendUpdate() {
   const { no } = useParams();
   const navigate = useNavigate();
   const [post, setPost] = useState({
@@ -20,7 +20,7 @@ function SellUpdate() {
 
   useEffect(() => {
     axios
-      .get(`/boardsell/Postview/${no}/process/update`)
+      .get(`/boardcookfriend/Postview/${no}/process/update`)
       .then((response) => {
         const { title, sellprice, originprice, content, file_path } =
           response.data;
@@ -32,7 +32,7 @@ function SellUpdate() {
       .catch((error) => {
         if (error.response && error.response.status === 403) {
           alert("수정 권한이 없습니다.");
-          navigate(`/boardsell/PostView/${no}`);
+          navigate(`/boardcookfriend/PostView/${no}`);
         } else {
           console.error("게시글을 불러오는 중 오류가 발생했습니다!", error);
           setError("게시글을 불러오는 중 오류가 발생했습니다!");
@@ -64,18 +64,22 @@ function SellUpdate() {
     formData.append("originprice", post.originprice);
 
     try {
-      await axios.post(`/boardsell/Postview/${no}/process/update`, formData, {
-        withCredentials: true,
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      });
+      await axios.post(
+        `/boardcookfriend/Postview/${no}/process/update`,
+        formData,
+        {
+          withCredentials: true,
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
       alert("수정되었습니다.");
-      navigate(`/boardsell/PostView/${no}`);
+      navigate(`/boardcookfriend/PostView/${no}`);
     } catch (error) {
       if (error.response && error.response.status === 403) {
         alert("수정 권한이 없습니다.");
-        navigate(`/boardsell/PostView/${no}`);
+        navigate(`/boardcookfriend/PostView/${no}`);
       } else {
         console.error("게시글을 수정하는 중 오류가 발생했습니다:", error);
         alert("게시글을 수정하는 중 오류가 발생했습니다:");
@@ -84,7 +88,7 @@ function SellUpdate() {
   };
 
   const backToList = () => {
-    navigate(`/boardsell/PostView/${no}`);
+    navigate(`/boardcookfriend/PostView/${no}`);
   };
 
   if (loading) {
@@ -158,4 +162,4 @@ function SellUpdate() {
   );
 }
 
-export default SellUpdate;
+export default Cook_friendUpdate;

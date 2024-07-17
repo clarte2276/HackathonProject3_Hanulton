@@ -6,6 +6,9 @@ import NavbarBottom from "./components/Navbar/NavbarBottom.js";
 import BoardSell from "./components/board/BoardSell.js";
 import SellCreate from "./components/board/CRUD/SellCreate.js";
 import SellRead from "./components/board/CRUD/SellRead.js";
+import Cook_friendCreate from "./components/board/CRUD/Cook_friendCreate.js";
+import Cook_friendRead from "./components/board/CRUD/Cook_friendRead.js";
+import Cook_friendUpdate from "./components/board/CRUD/Cook_friendUpdate.js";
 import SellUpdate from "./components/board/CRUD/SellUpdate.js";
 import Signup from "./components/mypage/Signup.js";
 import Login from "./components/mypage/Login.js";
@@ -31,6 +34,18 @@ function App() {
             <Route
               path="/boardsell/Postview/:no/process/update"
               element={<SellUpdate />}
+            />
+            <Route
+              path="/boardcookfriend/process/new_Post"
+              element={<Cook_friendCreate />}
+            />
+            <Route
+              path="/boardcookfriend/PostView/:no"
+              element={<Cook_friendRead />}
+            />
+            <Route
+              path="/boardcookfriend/Postview/:no/process/update"
+              element={<Cook_friendUpdate />}
             />
             <Route path="/signuppage" element={<Signup />} />
             <Route path="/loginpage" element={<Login />} />

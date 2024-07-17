@@ -4,7 +4,7 @@ import BasicNavbar from "../../Navbar/BasicNavbar";
 import "./CRUD.css";
 import axios from "axios";
 
-function SellCreate() {
+function Cook_friendCreate() {
   const navigate = useNavigate();
   const location = useLocation();
   const { nextNo, gptResponse } = location.state || {};
@@ -45,7 +45,7 @@ function SellCreate() {
 
     try {
       const response = await axios.post(
-        `/boardsell/process/new_Post`,
+        `/boardcookfriend/process/new_Post`,
         formData,
         {
           withCredentials: true,
@@ -57,7 +57,7 @@ function SellCreate() {
       const newPostId = response.data.no;
       console.log("왜안돼", { newPostId }, response.data);
       alert("등록되었습니다.");
-      navigate(`/boardsell`, { state: { newPostId } });
+      navigate(`/boardcookfriend`, { state: { newPostId } });
     } catch (error) {
       console.error("Error saving post:", error);
       alert("글을 저장하는 도중 오류가 발생했습니다.");
@@ -65,7 +65,7 @@ function SellCreate() {
   };
 
   const backToList = () => {
-    navigate("/boardsell");
+    navigate("/boardcookfriend");
   };
 
   return (
@@ -155,4 +155,4 @@ function SellCreate() {
   );
 }
 
-export default SellCreate;
+export default Cook_friendCreate;
