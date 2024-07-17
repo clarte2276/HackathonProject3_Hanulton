@@ -3,7 +3,7 @@ import './BasicNavbar.css';
 
 function BasicNavbar(props) {
   return (
-    <div className="navbar">
+    <div className="basicNavbar">
       <h1>{props.title}</h1>
       <div className="underline"></div>
     </div>

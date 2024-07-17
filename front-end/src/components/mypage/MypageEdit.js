@@ -54,35 +54,25 @@ function MypageEdit() {
       <BasicNavbar title="프로필 수정"></BasicNavbar>
       <div className="myPageEdit">
         <form onSubmit={handleSaveWrapper} className="userEditForm">
-          <p>
-            이름
-            <input type="text" name="name" placeholder="이름" value={name} disabled />
-          </p>
-          <p>
-            닉네임
-            <input type="text" name="nickname" placeholder="닉네임" value={nickname} onChange={handleInputChange} />
-          </p>
-          <p>
-            가게 이름
-            <input type="text" name="store" placeholder="가게 이름" value={store} disabled />
-          </p>
-          <p>
-            생년월일
-            <input type="text" name="birth" placeholder="생년월일(8자리 입력)" value={birth} disabled />
-          </p>
+          <div className="userEditName">
+            <p>이름</p>
+            <input type="text" name="name" value={name} disabled />
+          </div>
+          <div className="userEditNickname">
+            <p>닉네임</p>
+            <input type="text" name="nickname" value={nickname} onChange={handleInputChange} />
+          </div>
           <div className="userEditInfo">
-            <p className="a_id">
-              아이디 <input type="text" placeholder="아이디" value={id} disabled />
-            </p>
-            <p className="a_pw">
-              비밀번호
-              <input
-                type="text"
-                placeholder="비밀번호"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-              />
-            </p>
+            <p>가게 이름</p>
+            <input type="text" name="store" value={store} disabled />
+            <p>생년월일</p>
+            <input type="text" name="birth" placeholder="8자리를 입력해주세요." value={birth} disabled />
+            <p className="a_id">아이디 </p>
+            <input type="text" value={id} disabled />{' '}
+          </div>
+          <div className="userEditPw">
+            <p className="a_pw">비밀번호</p>
+            <input type="text" value={password} onChange={(e) => setPassword(e.target.value)} />
           </div>
           <div className="centered">
             <button type="submit" className="saveBtn">
