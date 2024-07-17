@@ -69,7 +69,6 @@ app.use("/", chatsRoutes);
 app.use("/", searchRoutes);
 app.use("/", chattingRoutes);
 app.use("/", gptRoutes); // 여기에 주의
-app.use("/", commentsRoutes);
 
 //모든 요청은 build/index.html로
 app.get("*", (req, res) => {

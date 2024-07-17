@@ -37,31 +37,17 @@ function NavbarTop() {
   function Dropdown() {
     return (
       <>
-        {location.pathname !== '/' && (
-          <div>
-            <Link className="TapTap" to="/">
-              Home
-            </Link>
-          </div>
-        )}
-        {location.pathname !== '/boardbuy' && (
-          <div>
-            <Link className="TapTap" to="/boardcookfriend">
-              같이 요리해요
-            </Link>
-          </div>
-        )}
         {location.pathname !== '/boardsell' && (
           <div>
             <Link className="TapTap" to="/boardsell">
-              팝니다
+              우리요리
             </Link>
           </div>
         )}
-        {location.pathname !== '/boardads' && (
+        {location.pathname !== '/boardcookfriend' && (
           <div>
-            <Link className="TapTap" to="/boardads">
-              홍보
+            <Link className="TapTap" to="/boardcookfriend">
+              레시피 공유
             </Link>
           </div>
         )}
@@ -70,14 +56,12 @@ function NavbarTop() {
   }
 
   const getGreetingText = () => {
-    if (location.pathname === '/') {
-      return 'Home';
-    } else if (location.pathname.startsWith('/boardbuy')) {
-      return '삽니다';
+    if (location.pathname === '/boardsell') {
+      return '우리요리';
     } else if (location.pathname.startsWith('/boardsell')) {
-      return '팝니다';
-    } else if (location.pathname.startsWith('/boardads')) {
-      return '홍보';
+      return '우리요리';
+    } else if (location.pathname.startsWith('/boardcookfriend')) {
+      return '레시피 공유';
     } else {
       return '반가워요!';
     }
@@ -86,10 +70,8 @@ function NavbarTop() {
   const getNewPostPath = () => {
     if (location.pathname.startsWith('/boardsell')) {
       return '/boardsell/process/new_Post';
-    } else if (location.pathname.startsWith('/boardbuy')) {
-      return '/boardbuy/process/new_Post';
-    } else if (location.pathname.startsWith('/boardads')) {
-      return '/boardads/process/new_Post';
+    } else if (location.pathname.startsWith('/boardcookfriend')) {
+      return '/boardcookfriend/process/new_Post';
     } else {
       return '#';
     }
