@@ -58,6 +58,7 @@ const chatsRoutes = require("./function/chat_list");
 const searchRoutes = require("./function/search");
 const loginRoutes = require("./function/login");
 const gptRoutes = require("./function/gpt_test");
+const chattingRoutes = require("./function/chatting");
 const commentsRoutes = require("./function/comments");
 
 app.use("/", mypageRoutes);
@@ -66,6 +67,7 @@ app.use("/", use_cookieRoutes);
 app.use("/", boardRoutes);
 app.use("/", chatsRoutes);
 app.use("/", searchRoutes);
+app.use("/", chattingRoutes);
 app.use("/", gptRoutes); // 여기에 주의
 app.use("/", commentsRoutes);
 
