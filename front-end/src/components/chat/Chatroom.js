@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
+import "./Chatroom.css";
 
 const Chatroom = () => {
   const { sender, receiver } = useParams();
   const [messages, setMessages] = useState([]);
   const [newMessage, setNewMessage] = useState("");
   const [roomMessages, setRoomMessages] = useState([]);
+  const [myNickname, setMyNickname] = useState(""); // 닉네임 상태 추가
 
   const fetchMessages = async () => {
     try {
@@ -20,6 +22,7 @@ const Chatroom = () => {
       if (Array.isArray(response.data)) {
         const processedMessages = response.data.map((msg) => ({
           ...msg,
+          isMyMessage: msg.receiver_id === receiver && msg.sender_id === sender,
         }));
         setMessages(processedMessages);
       } else {
@@ -30,8 +33,18 @@ const Chatroom = () => {
     }
   };
 
+  const fetchUserInfo = async () => {
+    try {
+      const response = await axios.get("/api/user"); // 사용자의 닉네임을 가져오는 API 엔드포인트
+      setMyNickname(response.data.nickname);
+    } catch (error) {
+      console.error("Error fetching user info:", error);
+    }
+  };
+
   useEffect(() => {
     fetchMessages();
+    fetchUserInfo(); // 사용자 정보 로드
     //인터벌
     const interval = setInterval(fetchMessages, 5000);
 
@@ -55,10 +68,11 @@ const Chatroom = () => {
   const handleSendMessage = async () => {
     if (newMessage.trim() === "") return;
     try {
+      const formattedMessage = `${myNickname} : ${newMessage}`;
       console.log("Sending message:", {
         sender,
         receiver,
-        content: newMessage,
+        content: formattedMessage,
       });
       const sender_id = sender;
       const receiver_id = receiver;
@@ -66,20 +80,21 @@ const Chatroom = () => {
       console.log("Sending message:", {
         sender_id,
         receiver_id,
-        content: newMessage,
+        content: formattedMessage,
       });
 
       //백엔드에 보내기
       const response = await axios.post(
         `/chat/chatroom/${sender}/to/${receiver}/messages`,
-        { sender, receiver, content: newMessage }
+        { sender, receiver, content: formattedMessage }
       );
       console.log("Response:", response);
 
       const newMsg = {
         sender_id,
         receiver_id,
-        content: newMessage,
+        content: formattedMessage,
+        isMyMessage: true,
       };
 
       setMessages((prevMessages) => [...prevMessages, newMsg]);
@@ -93,8 +108,17 @@ const Chatroom = () => {
     <div className="chattingRoom">
       <div className="chatroom-messages">
         {roomMessages.map((msg, index) => (
-          <div key={index}>
-            <p>{msg.content}</p>
+          <div
+            key={index}
+            className={
+              msg.isMyMessage
+                ? "my-message-container"
+                : "other-message-container"
+            }
+          >
+            <p className={msg.isMyMessage ? "my-message" : "other-message"}>
+              {msg.content}
+            </p>
           </div>
         ))}
       </div>
