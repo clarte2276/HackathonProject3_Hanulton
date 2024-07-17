@@ -14,6 +14,7 @@ import './Board.css';
 const BoardSell = () => {
   const [dataList, setDataList] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
+  const [imageLoadStates, setImageLoadStates] = useState({});
   const [searchKeyword, setSearchKeyword] = useState('');
   const postsPerPage = 10;
   const location = useLocation();
@@ -42,6 +43,33 @@ const BoardSell = () => {
     }
   }, [location.state]);
 
+  useEffect(() => {
+    const newImageLoadStates = {};
+    dataList.forEach((item) => {
+      if (item.imageUrl) {
+        const img = new Image();
+        img.src = item.imageUrl;
+        img.onload = () => {
+          setImageLoadStates((prevState) => ({
+            ...prevState,
+            [item.no]: true,
+          }));
+        };
+        img.onerror = () => {
+          setImageLoadStates((prevState) => ({
+            ...prevState,
+            [item.no]: false,
+          }));
+        };
+      } else {
+        setImageLoadStates((prevState) => ({
+          ...prevState,
+          [item.no]: false,
+        }));
+      }
+    });
+  }, [dataList]);
+
   const getNextNo = () => {
     return dataList.length > 0 ? Math.max(...dataList.map((post) => post.no)) + 1 : 1;
   };
@@ -57,10 +85,6 @@ const BoardSell = () => {
   const handleSearch = (e) => {
     e.preventDefault();
     fetchData(searchKeyword);
-  };
-
-  const formatPrice = (price) => {
-    return new Intl.NumberFormat('ko-KR').format(price) + '원';
   };
 
   return (
@@ -85,18 +109,16 @@ const BoardSell = () => {
               <RowListBoard key={index}>
                 <Link to={`/boardsell/PostView/${item.no}`} style={{ textDecoration: 'none' }}>
                   <ColumnListBoard>
-                    {item.imageUrl && (
-                      <img
-                        src={item.imageUrl}
-                        alt="게시글 이미지"
-                        style={{ maxWidth: '100px', maxHeight: '100px' }}
-                      />
+                    {imageLoadStates[item.no] ? (
+                      <img src={item.imageUrl} alt="게시글 이미지" style={{ maxWidth: '100px', maxHeight: '100px' }} />
+                    ) : (
+                      <div className="maybeimg"></div>
                     )}
                   </ColumnListBoard>
                   <ColumnListBoard>
                     <div className="titlePrice">
                       <div className="List_title">{item.title}</div>
-                      <div className="List_price">{formatPrice(item.sellprice)}</div>
+                      <div className="List_price">{item.nickname}</div>
                       {/* <div className="List_date">{item.created_date}</div> */}
                     </div>
                   </ColumnListBoard>

@@ -147,6 +147,7 @@
 
 .Read_allone {
   width: 100%;
+  margin: 30px 0px;
 }
 
 .imageContainer {
@@ -162,6 +163,11 @@
 
 .sellRead_underline {
   border-bottom: 1px solid #979797;
+}
+
+.nicknamePlace_layout {
+  text-align: left;
+  margin-left: 40px;
 }
 
 .ReadTitle {

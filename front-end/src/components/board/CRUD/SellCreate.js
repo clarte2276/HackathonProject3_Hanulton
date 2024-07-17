@@ -78,11 +78,9 @@ function SellCreate() {
   };
 
   return (
-    <div className="Create_all">
-      <div>
-        <div>
-          <BasicNavbar title="글쓰기" />
-        </div>
+    <>
+      <BasicNavbar title="글쓰기" />
+      <div className="Create_all">
         <div className="boardName_layout">
           <div className="boardTitle">게시판</div>
           <div className="boardName">{getBoard()}</div>
@@ -137,7 +135,7 @@ function SellCreate() {
                 <input
                   className="titleInput"
                   type="text"
-                  name="요리 희망 장소"
+                  name="place"
                   placeholder="장소를 입력하세요"
                   value={place}
                   onChange={onChange}
@@ -154,7 +152,7 @@ function SellCreate() {
           </div>
         </form>
       </div>
-    </div>
+    </>
   );
 }
 
