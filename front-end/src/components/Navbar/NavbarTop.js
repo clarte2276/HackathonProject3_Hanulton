@@ -70,30 +70,28 @@ function NavbarTop() {
   }
 
   const getGreetingText = () => {
-    switch (location.pathname) {
-      case '/':
-        return 'Home';
-      case '/boardbuy':
-        return '삽니다';
-      case '/boardsell':
-        return '팝니다';
-      case '/boardads':
-        return '홍보';
-      default:
-        return '반가워요!';
+    if (location.pathname === '/') {
+      return 'Home';
+    } else if (location.pathname.startsWith('/boardbuy')) {
+      return '삽니다';
+    } else if (location.pathname.startsWith('/boardsell')) {
+      return '팝니다';
+    } else if (location.pathname.startsWith('/boardads')) {
+      return '홍보';
+    } else {
+      return '반가워요!';
     }
   };
 
   const getNewPostPath = () => {
-    switch (location.pathname) {
-      case '/boardsell':
-        return '/boardsell/process/new_Post';
-      case '/boardbuy':
-        return '/boardbuy/process/new_Post';
-      case '/boardads':
-        return '/boardads/process/new_Post';
-      default:
-        return '#';
+    if (location.pathname.startsWith('/boardsell')) {
+      return '/boardsell/process/new_Post';
+    } else if (location.pathname.startsWith('/boardbuy')) {
+      return '/boardbuy/process/new_Post';
+    } else if (location.pathname.startsWith('/boardads')) {
+      return '/boardads/process/new_Post';
+    } else {
+      return '#';
     }
   };
 

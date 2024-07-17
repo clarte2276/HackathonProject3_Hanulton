@@ -11,13 +11,12 @@ function SellCreate() {
 
   const [board, setBoard] = useState({
     title: '',
-    sellprice: '',
-    originprice: '',
     body: '',
+    place: '',
   });
   const [file, setFile] = useState(null);
 
-  const { title, body, sellprice, originprice } = board;
+  const { title, body, place } = board;
 
   const onChange = (event) => {
     const { value, name } = event.target;
@@ -40,8 +39,7 @@ function SellCreate() {
     formData.append('title', title);
     formData.append('content', body);
     formData.append('created_date', new Date().toISOString());
-    formData.append('originprice', originprice);
-    formData.append('sellprice', sellprice);
+    formData.append('place', place);
 
     try {
       const response = await axios.post(`/boardsell/process/new_Post`, formData, {
@@ -102,34 +100,6 @@ function SellCreate() {
                   onChange={onChange}
                 />
               </p>
-              <p className="sellOriginPrice">
-                <div>
-                  <p className="titleBody_nameLayout">
-                    <span className="titleBody_name">판매 가격</span>
-                  </p>
-                  <input
-                    className="sellpriceInput"
-                    type="text"
-                    name="sellprice"
-                    placeholder="판매 가격"
-                    value={sellprice}
-                    onChange={onChange}
-                  />
-                </div>
-                <div>
-                  <p className="titleBody_nameLayout">
-                    <span className="titleBody_name">정가</span>
-                  </p>
-                  <input
-                    className="originpriceInput"
-                    type="text"
-                    name="originprice"
-                    placeholder="정가"
-                    value={originprice}
-                    onChange={onChange}
-                  />
-                </div>
-              </p>
             </div>
             <br />
             <div className="titleBody_layout">
@@ -154,6 +124,22 @@ function SellCreate() {
                 </p>
                 <input className="imgUp" type="file" onChange={onFileChange} />
               </div>
+            </div>
+            <br />
+            <div className="titleBody_layout">
+              <p>
+                <p className="titleBody_nameLayout">
+                  <span className="titleBody_name">요리 희망 장소</span>
+                </p>
+                <input
+                  className="titleInput"
+                  type="text"
+                  name="요리 희망 장소"
+                  placeholder="장소를 입력하세요"
+                  value={place}
+                  onChange={onChange}
+                />
+              </p>
             </div>
             <br />
             <div className="btn_layout">
