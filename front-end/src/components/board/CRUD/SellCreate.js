@@ -3,11 +3,6 @@ import { useNavigate, useLocation } from "react-router-dom";
 import BasicNavbar from "../../Navbar/BasicNavbar";
 import "./CRUD.css";
 import axios from "axios";
-import React, { useState } from "react";
-import { useNavigate, useLocation } from "react-router-dom";
-import BasicNavbar from "../../Navbar/BasicNavbar";
-import "./CRUD.css";
-import axios from "axios";
 
 function SellCreate() {
   const navigate = useNavigate();
