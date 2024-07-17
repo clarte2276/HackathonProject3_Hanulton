@@ -3,7 +3,13 @@
 .loginPage {
   display: flex;
   flex-direction: column;
-  margin-top: 20%;
+  justify-content: flex-start;
+  position: fixed;
+  align-items: center;
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+  margin-top: 30%;
 }
 
 .loginPage h1 {
